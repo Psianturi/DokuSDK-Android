@@ -1,0 +1,266 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/masterLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/white"
+    android:fitsSystemWindows="true"
+    tools:context=".BaseDokuWalletActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp">
+
+        <LinearLayout
+            android:id="@+id/testFB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/saldoLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true">
+
+                <TextView
+                    android:id="@+id/saldoText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Your Cash Balance"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/saldoWallet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/saldoText"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:text="Rp 3.890.000"
+                    android:textColor="#3a3a3a"
+                    android:textSize="38sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/promoLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/saldoLayout"
+                android:layout_marginTop="10dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/txtKodePromo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Kode Promo"
+                    android:textColor="#3a3a3a"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/promoLinear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/txtKodePromo"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <EditText
+                        android:id="@+id/promoCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:id="@+id/btnVerify"
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="VERIFY" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtVoucher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtKodePromo"
+                    android:layout_marginTop="20dp"
+                    android:text="Voucher"
+                    android:textColor="#3a3a3a"
+                    android:textSize="16sp" />
+
+                <Spinner
+                    android:id="@+id/spinVoucher"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtKodePromo"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/txtVoucher" />
+
+                <TextView
+                    android:id="@+id/totalTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/spinVoucher"
+                    android:layout_marginTop="10dp"
+                    android:gravity="left"
+                    android:text="Pembayaran"
+                    android:textColor="#3a3a3a"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/totalValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/spinVoucher"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/totalTxt"
+                    android:gravity="right"
+                    android:text="Rp 250.000"
+                    android:textColor="#3a3a3a"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/totalValue"
+                    android:layout_marginTop="5dp"
+                    android:background="#ececec" />
+
+                <TextView
+                    android:id="@+id/discountTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/line1"
+                    android:layout_marginTop="10dp"
+                    android:gravity="left"
+                    android:text="Voucher"
+                    android:textColor="#3a3a3a" />
+
+                <TextView
+                    android:id="@+id/discountValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/line1"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/discountTxt"
+                    android:gravity="right"
+                    android:text="Rp 25.000"
+                    android:textColor="@color/baseRedFont"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/line2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/discountTxt"
+                    android:layout_marginTop="10dp"
+                    android:background="#ececec" />
+
+
+                <TextView
+                    android:id="@+id/lastTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/line2"
+                    android:layout_marginTop="10dp"
+                    android:gravity="left"
+                    android:text="Total Pembayaran"
+                    android:textColor="#3a3a3a" />
+
+
+                <TextView
+                    android:id="@+id/lastTotalValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/line2"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/lastTotal"
+                    android:gravity="right"
+                    android:text="Rp 250.000"
+                    android:textColor="#3a3a3a"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/responLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/promoLayout"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/pinText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:ems="10"
+                    android:text="PIN"
+                    android:textColor="#9a9a9a" />
+
+                <com.doku.sdkocov2.utils.CustomEditText
+                    android:id="@+id/pinValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/pinText"
+                    android:layout_weight="1"
+                    android:digits="0123456789"
+                    android:ems="10"
+                    android:inputType="numberPassword"
+                    android:maxLength="4" />
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/responLayout"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_selector"
+                android:text="Process Payment"
+                android:textColor="@color/baseRedFont" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/testFB"
+            android:layout_marginTop="20dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/masterCardSercure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/payment_secure" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>

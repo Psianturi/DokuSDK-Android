@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="baseToolbar">#D32F2F</color>
+    <color name="baseRedFont">#D32F2F</color>
+    <color name="baseGreenFont">#009b0f</color>
+    <color name="baseBlueFont">#00adfd</color>
+    <color name="baseButtonColor">#D32F2F</color>
+    <color name="baseButtonSelector">#100202</color>
+    <color name="baseHintColor">#cccbcb</color>
+    <color name="colorPrimary">#D32F2F</color>
+    <color name="colorPrimaryDark">#c62828</color>
+    <color name="colorAccent">#368add</color>
+    <color name="baseGreenRounded">#46dfc0</color>
+    <color name="baseGrayNonSelected">#ededed</color>
+    <color name="baseSelected">#df0404</color>
+</resources>

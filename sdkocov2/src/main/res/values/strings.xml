@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">SDKOCOv2</string>
+
+    <string name="error_field_required">This field is required</string>
+    <string name="error_invalid_format">Invalid format</string>
+    <string name="cc_not_valid">Your card number is invalid</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_phone_number">This phone number is invalid</string>
+    <string name="error_invalid_password">min 8 char, include number</string>
+    <string name="pilih">Pilih Voucher</string>
+
+    <string-array name="DokuPaymentChannel">
+        <item>Wallet</item>
+        <item>Credit Card</item>
+    </string-array>
+
+
+    <string-array name="PaymentChannel">
+        <item>Credit Card</item>
+        <item>DOKU WALLET</item>
+    </string-array>
+</resources>

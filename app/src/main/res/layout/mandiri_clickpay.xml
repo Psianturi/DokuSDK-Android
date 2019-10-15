@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/toolbarTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <ScrollView
+        android:id="@+id/masterLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/toolbarTop"
+        android:background="@android:color/white">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/imageMandiri"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/paychan_mandiriclickpay" />
+
+            <RelativeLayout
+                android:id="@+id/debitLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/imageMandiri"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/debitTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:text="Nomor Kartu Debit"
+                    android:textColor="#9a9a9a" />
+
+                <EditText
+                    android:id="@+id/cardNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/debitTxt"
+                    android:ems="10"
+                    android:inputType="phone"
+                    android:maxLength="19"
+                    android:singleLine="true" />
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/mandiriText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/debitLayout"
+                android:layout_marginTop="5dp"
+                android:lineSpacingMultiplier="1.2"
+                android:text="@string/mandiriText"
+                android:textColor="@color/baseBlueFont"
+                android:textSize="14sp" />
+
+            <View
+                android:id="@+id/line0"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/mandiriText"
+                android:layout_marginTop="10dp"
+                android:background="#CCCCCC" />
+
+            <ImageView
+                android:id="@+id/imageToken"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line0"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/ico_token" />
+
+            <TextView
+                android:id="@+id/mandiriTextToken"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line0"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/imageToken"
+                android:lineSpacingMultiplier="1.2"
+                android:text="@string/mandiriTextToken"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/challengeText1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mandiriTextToken"
+                android:layout_marginTop="10dp"
+                android:gravity="left"
+                android:text="@string/challengeCode1"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/challengeValue1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/mandiriTextToken"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/challengeText1"
+                android:gravity="right"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/challengeValue1"
+                android:layout_marginTop="10dp"
+                android:background="#CCCCCC" />
+
+            <TextView
+                android:id="@+id/challengeText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line1"
+                android:layout_marginTop="10dp"
+                android:gravity="left"
+                android:text="@string/challengeCode2"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/challengeValue2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/line1"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/challengeText2"
+                android:gravity="right"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/challengeValue2"
+                android:layout_marginTop="10dp"
+                android:background="#CCCCCC" />
+
+            <TextView
+                android:id="@+id/challengeText3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line2"
+                android:layout_marginTop="10dp"
+                android:gravity="left"
+                android:text="@string/challengeCode3"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/challengeValue3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/line2"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/challengeText3"
+                android:gravity="right"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/line3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/challengeValue3"
+                android:layout_marginTop="10dp"
+                android:background="#CCCCCC" />
+
+            <RelativeLayout
+                android:id="@+id/responLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line3"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/responTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:ems="10"
+                    android:text="Respon Token"
+                    android:textColor="#9a9a9a" />
+
+                <EditText
+                    android:id="@+id/responValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/responTxt"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_weight="1"
+                    android:digits="0123456789"
+                    android:ems="10"
+                    android:inputType="number" />
+            </RelativeLayout>
+
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/responLayout"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_selector"
+                android:text="Process Payment"
+                android:textColor="@color/baseRedFont" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnSubmit"
+                android:layout_marginTop="20dp"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/masterCardSercure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/payment_secure" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

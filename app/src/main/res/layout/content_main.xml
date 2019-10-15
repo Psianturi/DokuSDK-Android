@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.doku.samplesdkapps.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbarTop"
+            android:background="#FFFFFF"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/imageProduct"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/img_shoes" />
+
+            <TextView
+                android:id="@+id/textProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/imageProduct"
+                android:text="Van Classic Authentic Leather Mono Black"
+                android:textColor="#3a3a3a"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/qty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textProduct"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/imageProduct"
+                android:text="QTY"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/qtyValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textProduct"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/qty"
+                android:text="1"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/qty"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/imageProduct"
+                android:text="PRICE"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/priceValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/qtyValue"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/price"
+                android:text="15.000 IDR"
+                android:textColor="#D32F2F"
+                android:textSize="20sp" />
+
+
+            <TextView
+                android:id="@+id/emailTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/imageProduct"
+                android:text="Email"
+                android:textColor="#D32F2F"
+                android:textSize="20sp" />
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/emailInput"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_below="@+id/imageProduct"
+                android:layout_toRightOf="@id/emailTextView"
+
+                />
+
+            <Button
+                android:id="@+id/buttonCCRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/emailInput"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/button_orange"
+                android:drawableLeft="@drawable/ico_pc_cc_2"
+                android:drawableRight="@drawable/ico_arrow_left"
+                android:gravity="left|center_vertical"
+                android:padding="10dp"
+                android:text="Credit Card"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/buttonCCFirstPay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/buttonCCRegular"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_orange"
+                android:drawableLeft="@drawable/ico_pc_cc_2"
+                android:drawableRight="@drawable/ico_arrow_left"
+                android:gravity="left|center_vertical"
+                android:padding="10dp"
+                android:text="First Payment Tokenization"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/buttonCCSecondPay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/buttonCCFirstPay"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_orange"
+                android:drawableLeft="@drawable/ico_pc_cc_2"
+                android:drawableRight="@drawable/ico_arrow_left"
+                android:gravity="left|center_vertical"
+                android:padding="10dp"
+                android:text="Second Payment Tokenization"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/buttonDOKU"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/buttonCCSecondPay"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_orange"
+                android:drawableLeft="@drawable/ico_pc_doku_2"
+                android:drawableRight="@drawable/ico_arrow_left"
+                android:gravity="left|center_vertical"
+                android:padding="10dp"
+                android:text="DOKU"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/buttonMandiriClick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/buttonDOKU"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_orange"
+                android:drawableLeft="@drawable/ico_pc_mandiriclickpay_2"
+                android:drawableRight="@drawable/ico_arrow_left"
+                android:gravity="left|center_vertical"
+                android:padding="10dp"
+                android:text="Mandiri ClickPay"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/buttonVA"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/buttonMandiriClick"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_orange"
+                android:drawableLeft="@drawable/ico_pc_va_2"
+                android:drawableRight="@drawable/ico_arrow_left"
+                android:gravity="left|center_vertical"
+                android:padding="10dp"
+                android:text="Virtual Account"
+                android:textAllCaps="false" />
+
+
+            <Button
+                android:id="@+id/buttonAlfaVA"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/buttonVA"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_orange"
+                android:drawableLeft="@drawable/ico_pc_va_marchant"
+                android:drawableRight="@drawable/ico_arrow_left"
+                android:gravity="left|center_vertical"
+                android:padding="10dp"
+                android:text="Virtual Account Minimarket"
+                android:textAllCaps="false" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Sample SDK Apps</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="mandiriText">Pastikan bahwa kartu Anda telah diaktivasi melalui layanan Mandiri Internet Banking pada menu mandiri clickpay agar dapat melakukan transaksi Internet Payment.</string>
+    <string name="mandiriTextToken">Gunakan Token PIN Mandiri untuk bertransaksi. Nilai yang dimasukkan pada token Anda (Metode APPLI 3)</string>
+    <string name="challengeCode1">Challenge Code 1</string>
+    <string name="challengeCode2">Challenge Code 2</string>
+    <string name="challengeCode3">Challenge Code 3</string>
+    <string name="error_field_required">This field is required</string>
+
+    <string name="vaText1">Paycode digunakan untuk membayar melalui channel ATM dan minimarket. Sertakan kode ini saat membayar di ATM atau minimarket. </string>
+
+    <string name="vaResult">Kami menyarankan agar pembayaran dilakukan secepatnya setelah pembeluan online. Pembayaran akan berakhir sesuai dengan ketentuan merchant, dimana pembelian akan batal apabila melewati jangka waktu tersebut</string>
+
+</resources>

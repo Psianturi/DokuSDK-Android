@@ -1,0 +1,104 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/masterLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:fitsSystemWindows="true"
+    tools:context=".BaseDokuWalletActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbarTop"
+            android:layout_marginLeft="10dp"
+            android:paddingBottom="7dp"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:paddingTop="13dp"
+            android:text="Choose Card"
+            android:textColor="#000"
+            android:textSize="15sp" />
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_below="@+id/title"
+            android:divider="#E0E0E0"
+            android:dividerHeight="0.5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:scrollbars="none" />
+
+
+        <RelativeLayout
+            android:id="@+id/data1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/list"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:id="@+id/cvvText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:ems="10"
+                android:text="CVV 2"
+                android:textColor="#9a9a9a" />
+
+            <com.doku.sdkocov2.utils.CustomEditText
+                android:id="@+id/cvvValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cvvText"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_weight="1"
+                android:digits="0123456789"
+                android:ems="10"
+                android:inputType="numberPassword"
+                android:maxLength="4" />
+        </RelativeLayout>
+
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/data1"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_selector"
+            android:text="Process Payment"
+            android:textColor="@color/baseRedFont" />
+
+        <RelativeLayout
+            android:id="@+id/secureLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/btnSubmit"
+            android:layout_marginTop="15dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/masterCardSercure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/payment_secure" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

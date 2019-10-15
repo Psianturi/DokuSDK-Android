@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/masterLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFF">
+
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/toolbarTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:id="@+id/payCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbarTop"
+        android:background="#b72a2a"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="15dp">
+
+        <TextView
+            android:id="@+id/txtKode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Kode Pembayaran Anda Adalah"
+            android:textColor="#FFF"
+            android:textSize="16sp" />
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/txtKode"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="#FFF" />
+
+        <TextView
+            android:id="@+id/kodePembayaran"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view1"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="12312312312312"
+            android:textColor="#FFF"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/kodePembayaran"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="#FFF" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/payCode"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/invoiceTxt"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="left"
+            android:text="Invoice"
+            android:textColor="#000"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:id="@+id/invoiceValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/invoiceTxt"
+            android:gravity="right"
+            android:text="12312"
+            android:textColor="#000"
+            android:textSize="16sp" />
+
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/invoiceTxt"
+            android:layout_marginTop="10dp"
+            android:background="#CCCCCC" />
+
+        <TextView
+            android:id="@+id/totalTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line1"
+            android:layout_marginTop="10dp"
+            android:gravity="left"
+            android:text="Total Pembayaran"
+            android:textColor="#000"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:id="@+id/totalValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/line1"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/totalTxt"
+            android:gravity="right"
+            android:textColor="#000"
+            android:textSize="16sp" />
+
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/totalValue"
+            android:layout_marginTop="10dp"
+            android:background="#CCCCCC" />
+
+
+        <TextView
+            android:id="@+id/ketTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line2"
+            android:layout_marginTop="10dp"
+            android:lineSpacingMultiplier="1.2"
+            android:text="@string/vaResult"
+            android:textColor="#000"
+            android:textSize="14sp" />
+
+
+        <Button
+            android:id="@+id/btnATM"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ketTxt"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/button_orange"
+            android:drawableLeft="@drawable/ico_pc_va_2"
+            android:drawableRight="@drawable/ico_arrow_left"
+            android:gravity="left|center_vertical"
+            android:padding="10dp"
+            android:text="How To Pay via ATM"
+            android:textAllCaps="false" />
+    </RelativeLayout>
+</RelativeLayout>

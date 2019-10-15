@@ -1,0 +1,215 @@
+package com.doku.samplesdkapps;
+
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.telephony.TelephonyManager;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by zaki on 3/28/16.
+ */
+public class VirtualAccount extends AppCompatActivity {
+
+    private static final int REQUEST_PHONE = 1;
+    private static String[] PERMISSION_PHONE = {Manifest.permission.READ_PHONE_STATE};
+    Button btnSubmit;
+    TelephonyManager telephonyManager;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.va_payment);
+
+        setupLayout();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Payment");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ico_back));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent returnIntent = new Intent();
+                setResult(RESULT_CANCELED, returnIntent);
+                finish();
+            }
+        });
+
+
+        telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+
+        btnSubmit = (Button) findViewById(R.id.btnSubmit);
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (ActivityCompat.checkSelfPermission(VirtualAccount.this, String.valueOf(PERMISSION_PHONE))
+                        != PackageManager.PERMISSION_GRANTED) {
+                    getPermissionFirst();
+                } else {
+                    new VirtualAccountPayment().execute();
+                }
+
+
+            }
+        });
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private void getPermissionFirst() {
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.READ_PHONE_STATE)) {
+
+            ActivityCompat.requestPermissions(VirtualAccount.this,
+                    new String[]{Manifest.permission.READ_PHONE_STATE},
+                    REQUEST_PHONE);
+
+        } else {
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE},
+                    REQUEST_PHONE);
+
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_PHONE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                new VirtualAccountPayment().execute();
+            } else {
+                Toast.makeText(getApplicationContext(), "Permission Failed", Toast.LENGTH_SHORT);
+            }
+        }
+    }
+
+
+    private void setupLayout() {
+
+        TextView textVa;
+        Button btnSubmit;
+
+        textVa = (TextView) findViewById(R.id.textVa);
+        btnSubmit = (Button) findViewById(R.id.btnSubmit);
+
+        AppsUtil.applyFont(getApplicationContext(), textVa, "fonts/dokuregular.ttf");
+        AppsUtil.applyFont(getApplicationContext(), btnSubmit, "fonts/dokuregular.ttf");
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent returnIntent = new Intent();
+        setResult(RESULT_CANCELED, returnIntent);
+        finish();
+    }
+
+
+    private class VirtualAccountPayment extends AsyncTask<String, String, JSONObject> {
+
+        private ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(VirtualAccount.this);
+            pDialog.setMessage("Mohon Tunggu ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONObject defResp = null;
+
+            try {
+
+                JSONObject jGroup = new JSONObject();// /main Object
+                try {
+
+                    jGroup.put("req_device_id", telephonyManager.getDeviceId());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Log.d("request VA", jGroup.toString());
+                List<NameValuePair> data = new ArrayList<NameValuePair>(3);
+                data.add(new BasicNameValuePair("data", jGroup.toString()));
+
+                // Getting JSON from URL
+                String conResult = ApiConnection.httpsConnection(VirtualAccount.this,
+                        Constants.URL_REQUEST_VACODE, data);
+                Log.d("DATA PAYMENT", conResult);
+
+                defResp = new JSONObject(conResult);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return defResp;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject json) {
+
+            pDialog.dismiss();
+
+            if (json != null) {
+                Log.d("json", json.toString());
+                try {
+                    if (json.getString("res_response_code").equalsIgnoreCase("0000") && json != null) {
+                        Intent intent = new Intent(getApplicationContext(), VAResult.class);
+                        intent.putExtra("data", json.toString());
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Intent returnIntent = new Intent();
+                        setResult(RESULT_CANCELED, returnIntent);
+                        finish();
+                    }
+
+                } catch (JSONException e) {
+                    Intent returnIntent = new Intent();
+                    setResult(RESULT_CANCELED, returnIntent);
+                    finish();
+
+                    e.printStackTrace();
+
+                }
+
+            }
+        }
+    }
+}
