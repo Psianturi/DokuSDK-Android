@@ -1,6 +1,6 @@
 # SDK-Android
 
-The DOKU Mobile SDK enables you to accept payments from customers who make a purchase on mobile devices through your iOS application. 
+The DOKU Mobile SDK enables you to accept payments from customers who make a purchase on mobile devices through your Android application. 
 
 ## Payment Channel Avalaible at Android SDK ##
 
@@ -12,10 +12,13 @@ The DOKU Mobile SDK enables you to accept payments from customers who make a pur
 
 ## Installation ## 
 
-1. iOS SDK integration has the following requirements:
-  • iPhone 4s, 5, and 6 with at least iOS 9.x
-  • iPad with at least iOS 9.x 
+1. Android SDK integration has the following requirements:
+• Android studio - IDE
+• Build SDK v21
+• Minimum Android SDK 11 Gingerbread
+
 2. Once you have confirmed to become a DOKU merchant through our Sales process, you will be contacted by our integration team to proceed to the technical integration stage. All new merchants will receive a shared key and a merchant code.
+
 3. Take a guidance with our techincal documentation included.
 
 
