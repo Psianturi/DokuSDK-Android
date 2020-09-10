@@ -23,9 +23,7 @@ public class PaymentItems {
     String tokenPayment;
     Boolean isProduction = null;
 
-    public PaymentItems() {
-
-    }
+    public PaymentItems() {}
 
     public String getCustomerID() {
         return customerID;

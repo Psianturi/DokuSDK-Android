@@ -4,7 +4,6 @@ package com.doku.sdkocov2.model;
  * Created by zaki on 2/25/16.
  */
 public class CCItem {
-
     String linkID;
     String cardName;
     String cardZipCode;
@@ -15,10 +14,8 @@ public class CCItem {
     String cardExpiryDateEncrypt;
     String cardPhone;
     String cardNoMasked;
-
     String typeCard;
     boolean choosenCard;
-
 
     public CCItem(String linkID, String cardName, String cardZipCode, String cardNumberEncrypt, String cardCountry, String cardCity, String cardEmail,
                   String cardExpiryDateEncrypt, String cardPhone, String cardNoMasked, String typeCard) {
@@ -35,14 +32,11 @@ public class CCItem {
         this.cardPhone = cardPhone;
         this.cardNoMasked = cardNoMasked;
         this.typeCard = typeCard;
-
     }
-
 
     public CCItem(String linkID, String cardName, String cardNumberEncrypt, String cardEmail,
                   String cardExpiryDateEncrypt, String cardNoMasked, String typeCard) {
         super();
-
         this.linkID = linkID;
         this.cardName = cardName;
         this.cardNumberEncrypt = cardNumberEncrypt;
@@ -50,9 +44,7 @@ public class CCItem {
         this.cardExpiryDateEncrypt = cardExpiryDateEncrypt;
         this.cardNoMasked = cardNoMasked;
         this.typeCard = typeCard;
-
     }
-
 
     public String getTypeCard() {
         return typeCard;

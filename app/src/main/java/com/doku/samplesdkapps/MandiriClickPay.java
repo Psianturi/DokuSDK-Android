@@ -45,29 +45,22 @@ public class MandiriClickPay extends AppCompatActivity {
             }
         });
 
-
-        debitCard = (EditText) findViewById(R.id.cardNumber);
-        responValue = (EditText) findViewById(R.id.responValue);
-        btnSubmit = (Button) findViewById(R.id.btnSubmit);
-        challengeValue1 = (TextView) findViewById(R.id.challengeValue1);
-        challengeValue2 = (TextView) findViewById(R.id.challengeValue2);
-        challengeValue3 = (TextView) findViewById(R.id.challengeValue3);
-
+        debitCard = findViewById(R.id.cardNumber);
+        responValue = findViewById(R.id.responValue);
+        btnSubmit = findViewById(R.id.btnSubmit);
+        challengeValue1 = findViewById(R.id.challengeValue1);
+        challengeValue2 = findViewById(R.id.challengeValue2);
+        challengeValue3 = findViewById(R.id.challengeValue3);
         responValue.setText("000000");
-
         challengeValue2.setText("15000");
         challengeValue3.setText(String.valueOf(AppsUtil.nDigitRandomNo(8)));
 
         debitCard.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -89,13 +82,10 @@ public class MandiriClickPay extends AppCompatActivity {
 
                 if (s.length() == 19) {
                     mandiriCardNumber = debitCard.getText().toString().replace("-", "");
-
                     challengeValue1.setText(mandiriCardNumber.substring(6, 16));
-
                 }
             }
         });
-
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,8 +104,6 @@ public class MandiriClickPay extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
     @Override
@@ -127,27 +115,23 @@ public class MandiriClickPay extends AppCompatActivity {
     }
 
     private void setupLayout() {
-
-        TextView debitTxt, mandiriText, mandiriTextToken, challengeText1, challengeText2, challengeText3,
-                challengeValue1, challengeValue2, challengeValue3, responTxt;
+        TextView debitTxt, mandiriText, mandiriTextToken, challengeText1, challengeText2, challengeText3, challengeValue1, challengeValue2, challengeValue3, responTxt;
         Button btnSubmit;
         EditText cardNumber, responValue;
 
-        debitTxt = (TextView) findViewById(R.id.debitTxt);
-        mandiriText = (TextView) findViewById(R.id.mandiriText);
-        mandiriTextToken = (TextView) findViewById(R.id.mandiriTextToken);
-        challengeText1 = (TextView) findViewById(R.id.challengeText1);
-        challengeText2 = (TextView) findViewById(R.id.challengeText2);
-        challengeText3 = (TextView) findViewById(R.id.challengeText3);
-        challengeValue1 = (TextView) findViewById(R.id.challengeValue1);
-        challengeValue2 = (TextView) findViewById(R.id.challengeValue2);
-        challengeValue3 = (TextView) findViewById(R.id.challengeValue3);
-        responTxt = (TextView) findViewById(R.id.responTxt);
-
-        cardNumber = (EditText) findViewById(R.id.cardNumber);
-        responValue = (EditText) findViewById(R.id.responValue);
-
-        btnSubmit = (Button) findViewById(R.id.btnSubmit);
+        debitTxt = findViewById(R.id.debitTxt);
+        mandiriText = findViewById(R.id.mandiriText);
+        mandiriTextToken = findViewById(R.id.mandiriTextToken);
+        challengeText1 = findViewById(R.id.challengeText1);
+        challengeText2 = findViewById(R.id.challengeText2);
+        challengeText3 = findViewById(R.id.challengeText3);
+        challengeValue1 = findViewById(R.id.challengeValue1);
+        challengeValue2 = findViewById(R.id.challengeValue2);
+        challengeValue3 = findViewById(R.id.challengeValue3);
+        responTxt = findViewById(R.id.responTxt);
+        cardNumber = findViewById(R.id.cardNumber);
+        responValue = findViewById(R.id.responValue);
+        btnSubmit = findViewById(R.id.btnSubmit);
 
         AppsUtil.applyFont(getApplicationContext(), debitTxt, "fonts/dokuregular.ttf");
         AppsUtil.applyFont(getApplicationContext(), mandiriText, "fonts/dokuregular.ttf");
@@ -162,6 +146,5 @@ public class MandiriClickPay extends AppCompatActivity {
         AppsUtil.applyFont(getApplicationContext(), cardNumber, "fonts/dokuregular.ttf");
         AppsUtil.applyFont(getApplicationContext(), responValue, "fonts/dokuregular.ttf");
         AppsUtil.applyFont(getApplicationContext(), btnSubmit, "fonts/dokuregular.ttf");
-
     }
 }

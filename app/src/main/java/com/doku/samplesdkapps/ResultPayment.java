@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,7 +31,7 @@ public class ResultPayment extends AppCompatActivity {
 
         setupLayout();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Payment");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -48,18 +47,14 @@ public class ResultPayment extends AppCompatActivity {
             }
         });
 
-
-        resultText = (TextView) findViewById(R.id.resultText);
-        imageVar = (ImageView) findViewById(R.id.imageVar);
-        btnSubmit = (Button) findViewById(R.id.btnSubmit);
+        resultText = findViewById(R.id.resultText);
+        imageVar = findViewById(R.id.imageVar);
+        btnSubmit = findViewById(R.id.btnSubmit);
 
         bundle = getIntent().getExtras();
         if (bundle != null) {
-
             try {
                 data = new JSONObject(bundle.getString("data"));
-
-
                 if (data.getString("res_response_code").equalsIgnoreCase("0000")) {
                     resultText.setText("Payment Success");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -75,11 +70,9 @@ public class ResultPayment extends AppCompatActivity {
                         imageVar.setBackgroundResource(R.drawable.ico_payment_failed);
                     }
                 }
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
@@ -97,8 +90,8 @@ public class ResultPayment extends AppCompatActivity {
         TextView resultText;
         Button btnSubmit;
 
-        resultText = (TextView) findViewById(R.id.resultText);
-        btnSubmit = (Button) findViewById(R.id.btnSubmit);
+        resultText = findViewById(R.id.resultText);
+        btnSubmit = findViewById(R.id.btnSubmit);
 
         AppsUtil.applyFont(getApplicationContext(), resultText, "fonts/dokuregular.ttf");
         AppsUtil.applyFont(getApplicationContext(), btnSubmit, "fonts/dokuregular.ttf");

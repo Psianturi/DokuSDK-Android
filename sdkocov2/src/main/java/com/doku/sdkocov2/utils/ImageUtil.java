@@ -13,11 +13,9 @@ public class ImageUtil {
         Bitmap output;
 
         if (bitmap.getWidth() > bitmap.getHeight()) {
-            output = Bitmap.createBitmap(bitmap.getHeight(),
-                    bitmap.getHeight(), Config.ARGB_8888);
+            output = Bitmap.createBitmap(bitmap.getHeight(), bitmap.getHeight(), Config.ARGB_8888);
         } else {
-            output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getWidth(),
-                    Config.ARGB_8888);
+            output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getWidth(), Config.ARGB_8888);
         }
 
         Canvas canvas = new Canvas(output);
@@ -42,5 +40,4 @@ public class ImageUtil {
         canvas.drawBitmap(bitmap, rect, rect, paint);
         return output;
     }
-
 }

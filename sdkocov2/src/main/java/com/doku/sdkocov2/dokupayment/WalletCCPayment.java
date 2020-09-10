@@ -2,6 +2,7 @@ package com.doku.sdkocov2.dokupayment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -18,7 +19,6 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.doku.sdkocov2.BaseDokuWalletActivity;
 import com.doku.sdkocov2.DirectSDK;
 import com.doku.sdkocov2.R;
@@ -31,23 +31,17 @@ import com.doku.sdkocov2.utils.Constants;
 import com.doku.sdkocov2.utils.CustomEditText;
 import com.doku.sdkocov2.utils.SDKConnections;
 import com.doku.sdkocov2.utils.SDKUtils;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by zaki on 2/25/16.
  */
 public class WalletCCPayment extends Fragment implements iSDKback {
 
-    public static final ArrayList<CCItem> ccItem = new ArrayList<CCItem>();
-    //declare variable
+    public static final ArrayList<CCItem> ccItem = new ArrayList<>();
     View view;
     CustomEditText cvvValue;
     Button btnSubmit;
@@ -59,27 +53,18 @@ public class WalletCCPayment extends Fragment implements iSDKback {
     String conResult;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.doku_cc_payment, container, false);
-
-        //setting layout
         setupLayout();
-
-        //initiate view
-        btnSubmit = (Button) view.findViewById(R.id.btnSubmit);
-        cvvValue = (CustomEditText) view.findViewById(R.id.cvvValue);
-
-        //clear arraylist
+        btnSubmit = view.findViewById(R.id.btnSubmit);
+        cvvValue = view.findViewById(R.id.cvvValue);
         ccItem.clear();
 
-        //parsing json data
         try {
             JSONArray ListPaymentData = new JSONArray(DirectSDK.userDetails.getPaymentChannel());
             for (int i = 0; i < ListPaymentData.length(); i++) {
                 JSONObject data = ListPaymentData.getJSONObject(i);
                 if (data.getString("channelCode").equalsIgnoreCase("02")) {
-
                     channelCode = data.getString("channelCode");
                     if (data.has("details")) {
                         JSONArray dataCC = data.getJSONArray("details");
@@ -101,7 +86,6 @@ public class WalletCCPayment extends Fragment implements iSDKback {
                                         listCC.getString("cardPhone"),
                                         listCC.getString("cardNoMasked"), listCC.getString("cardType")));
                             } else {
-                                //add data to model
                                 ccItem.add(new CCItem(listCC.getString("linkId"),
                                         listCC.getString("cardName"),
                                         listCC.getString("cardNoEncrypt"),
@@ -125,11 +109,9 @@ public class WalletCCPayment extends Fragment implements iSDKback {
             e.printStackTrace();
         }
 
-        //set adapter
         mAdapter = new DokuPayChanAdapter(getActivity().getApplicationContext(), ccItem);
-        ListView list = (ListView) view.findViewById(R.id.list);
+        ListView list = view.findViewById(R.id.list);
         list.setAdapter(mAdapter);
-
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,7 +119,6 @@ public class WalletCCPayment extends Fragment implements iSDKback {
                 attemptSubmit();
             }
         });
-
 
         bundle = getArguments();
         if (bundle != null) {
@@ -158,32 +139,23 @@ public class WalletCCPayment extends Fragment implements iSDKback {
             }
         }
 
-
         cvvValue.setDrawableClickListener(new DrawableClickListener() {
-
-
             public void onClick(DrawablePosition target) {
                 switch (target) {
                     case RIGHT:
-                        //Do something here
                         Toast.makeText(getContext(), "Insert last 3 number from back of your credit card", Toast.LENGTH_SHORT).show();
                         break;
-
                     default:
                         break;
                 }
             }
-
         });
 
         return view;
     }
 
-    //form validation
     private void attemptSubmit() {
-
         try {
-            //declare variable
             boolean cancel = false;
             View focusView = null;
             String vldtRslt;
@@ -192,7 +164,6 @@ public class WalletCCPayment extends Fragment implements iSDKback {
 
             vldtRslt = SDKUtils.validateValue(cvv, 'C');
             if (!vldtRslt.equals(Constants.VALIDATE_SUCCESS)) {
-
                 cvvValue
                         .setError(getString(vldtRslt
                                 .equals(Constants.VALIDATE_EMPTY_VALUE) ? R.string.error_field_required
@@ -205,28 +176,22 @@ public class WalletCCPayment extends Fragment implements iSDKback {
 
             if (!cancel) {
                 new PrePaymentProcess().execute();
-
             } else {
                 focusView.requestFocus();
             }
-
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    //get result activity
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-
             if (data.getStringExtra("result").equalsIgnoreCase("doRequestResponse")) {
-                //do magical request response
                 new check3dSecure().execute();
             } else if (data.getStringExtra("result").equalsIgnoreCase("propertyNull")) {
-                //handle error request
                 DirectSDK.callbackResponse.onError(SDKUtils.createClientResponse(300, "data null"));
             }
         }
@@ -243,22 +208,19 @@ public class WalletCCPayment extends Fragment implements iSDKback {
             DirectSDK.callbackResponse.onError(SDKUtils.createClientResponse(200, "canceled by user"));
             getActivity().finish();
         }
-
     }
 
     private void setupLayout() {
-        //declare variable
         TextView title, cvvText;
         CustomEditText cvvValue;
         ScrollView masterLayout;
         Button btnSubmit;
 
-        //initiate view
-        btnSubmit = (Button) view.findViewById(R.id.btnSubmit);
-        masterLayout = (ScrollView) view.findViewById(R.id.masterLayout);
-        title = (TextView) view.findViewById(R.id.title);
-        cvvText = (TextView) view.findViewById(R.id.cvvText);
-        cvvValue = (CustomEditText) view.findViewById(R.id.cvvValue);
+        btnSubmit = view.findViewById(R.id.btnSubmit);
+        masterLayout = view.findViewById(R.id.masterLayout);
+        title = view.findViewById(R.id.title);
+        cvvText = view.findViewById(R.id.cvvText);
+        cvvValue = view.findViewById(R.id.cvvValue);
 
         if (DirectSDK.layoutItems.getFontPath() != null) {
             SDKUtils.applyFont(DirectSDK.context, title, DirectSDK.layoutItems.getFontPath());
@@ -270,7 +232,6 @@ public class WalletCCPayment extends Fragment implements iSDKback {
             SDKUtils.applyFont(getActivity(), cvvValue, "fonts/dokuregular.ttf");
         }
 
-        //font color
         if (DirectSDK.layoutItems.getFontColor() != null) {
             title.setTextColor(Color.parseColor(DirectSDK.layoutItems.getFontColor()));
             cvvValue.setTextColor(Color.parseColor(DirectSDK.layoutItems.getFontColor()));
@@ -293,15 +254,11 @@ public class WalletCCPayment extends Fragment implements iSDKback {
         }
 
         if (DirectSDK.layoutItems.getLabelTextColor() != null) {
-
             cvvText.setTextColor(Color.parseColor(DirectSDK.layoutItems.getLabelTextColor()));
-
         }
-
     }
 
     private class PrePaymentProcess extends AsyncTask<String, String, JSONObject> {
-
         private ProgressDialog pDialog;
 
         @Override
@@ -331,30 +288,21 @@ public class WalletCCPayment extends Fragment implements iSDKback {
                         DirectSDK.paymentItems.getDataWords(), SDKUtils.Encrypt(DirectSDK.userDetails.getCustomerEmail(), DirectSDK.paymentItems.getPublicKey()),
                         DirectSDK.userDetails.getCustomerName());
 
-                List<NameValuePair> data = new ArrayList<NameValuePair>(3);
-                data.add(new BasicNameValuePair("data", dataJSON));
+                ContentValues data = new ContentValues();
+                data.put("data", dataJSON);
 
                 if (DirectSDK.paymentItems.getIsProduction() == true) {
-
-                    // Getting JSON from URL
-                    conResult = SDKConnections.httpsConnection(getActivity(),
-                            Constants.URL_prePaymentProd, data);
+                    conResult = SDKConnections.httpsConnection(getActivity(), Constants.URL_prePaymentProd, data);
                 } else {
-
-                    // Getting JSON from URL
-                    conResult = SDKConnections.httpsConnection(getActivity(),
-                            Constants.URL_prePaymentDev, data);
+                    conResult = SDKConnections.httpsConnection(getActivity(), Constants.URL_prePaymentDev, data);
                 }
 
                 if (conResult != null) {
                     defResp = new JSONObject(conResult);
-
                     return defResp;
                 } else {
                     Log.d("DATA JSON CC WALLET", "DATA NULL");
                 }
-
-
             } catch (JSONException e) {
                 DirectSDK.callbackResponse.onException(e);
             }
@@ -363,14 +311,10 @@ public class WalletCCPayment extends Fragment implements iSDKback {
 
         @Override
         protected void onPostExecute(JSONObject json) {
-
             pDialog.dismiss();
-
             if (json != null) {
-
                 try {
                     if (json.getString("res_response_code").equalsIgnoreCase("0000")) {
-
                         if (json.has("res_result_3D")) {
 
                             JSONObject secureData = new JSONObject(json.getString("res_result_3D"));
@@ -405,14 +349,11 @@ public class WalletCCPayment extends Fragment implements iSDKback {
                     DirectSDK.callbackResponse.onException(e);
                     getActivity().finish();
                 }
-
             }
         }
     }
 
-    //background process
     private class check3dSecure extends AsyncTask<String, String, JSONObject> {
-
         private ProgressDialog pDialog;
 
         @Override
@@ -423,20 +364,16 @@ public class WalletCCPayment extends Fragment implements iSDKback {
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
-
         }
 
         @Override
         protected JSONObject doInBackground(String... args) {
             JSONObject defResp;
-
             try {
-
-                //create json request
                 String dataJson = SDKUtils.createRequest3D(DirectSDK.loginModel.getTokenID(), DirectSDK.loginModel.getPairingCode(), DirectSDK.paymentItems.getDataWords());
 
-                List<NameValuePair> data = new ArrayList<NameValuePair>(3);
-                data.add(new BasicNameValuePair("data", dataJson));
+                ContentValues data = new ContentValues();
+                data.put("data", dataJson);
 
                 if (DirectSDK.paymentItems.getIsProduction() == true) {
                     conResult = SDKConnections.httpsConnection(getActivity(),
@@ -459,9 +396,7 @@ public class WalletCCPayment extends Fragment implements iSDKback {
 
         @Override
         protected void onPostExecute(JSONObject json) {
-
             pDialog.dismiss();
-            ;
             try {
                 if (json.getString("res_response_code").equalsIgnoreCase("0000")) {
 

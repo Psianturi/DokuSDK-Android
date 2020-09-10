@@ -4,29 +4,30 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.widget.TextView;
-
 import java.security.MessageDigest;
-import java.text.DecimalFormat;
 import java.util.Random;
 
 /**
  * Created by zaki on 3/28/16.
  */
 public class AppsUtil {
-
-
-    public static void applyFont(Context context, TextView textView,
-                                 String fontPath) {
+    public static void applyFont(Context context, TextView textView, String fontPath) {
         try {
-
-            textView.setTypeface(Typeface.createFromAsset(
-                    context.getAssets(), fontPath));
+            textView.setTypeface(Typeface.createFromAsset(context.getAssets(), fontPath));
         } catch (Exception e) {
-            Log.e("Font Apply", String.format(
-                    "Error occured when trying to apply %s font for %s view",
-                    fontPath, textView));
+            Log.e("Font Apply", String.format("Error occured when trying to apply %s font for %s view", fontPath, textView));
             e.printStackTrace();
         }
+    }
+
+    public static long generateInvoiceId() {
+        Random rnd = new Random();
+        char [] digits = new char[11];
+        digits[0] = (char) (rnd.nextInt(9) + '1');
+        for(int i=1; i<digits.length; i++) {
+            digits[i] = (char) (rnd.nextInt(10) + '0');
+        }
+        return Long.parseLong(new String(digits));
     }
 
     public static String SHA1(String text) {
@@ -58,21 +59,13 @@ public class AppsUtil {
         return buf.toString();
     }
 
-    public static String generateMoneyFormat(String number) {
-        double amount = Double.parseDouble(number);
-        DecimalFormat formatter = new DecimalFormat("####.00");
-        return formatter.format(amount);
-    }
-
-
     public static int nDigitRandomNo(int digits) {
-        int max = (int) Math.pow(10, (digits)) - 1; //for digits =7, max will be 9999999
-        int min = (int) Math.pow(10, digits - 1); //for digits = 7, min will be 1000000
-        int range = max - min; //This is 8999999
+        int max = (int) Math.pow(10, (digits)) - 1;
+        int min = (int) Math.pow(10, digits - 1);
+        int range = max - min;
         Random r = new Random();
-        int x = r.nextInt(range);// This will generate random integers in range 0 - 8999999
-        int nDigitRandomNo = x + min; //Our random rumber will be any random number x + min
+        int x = r.nextInt(range);
+        int nDigitRandomNo = x + min;
         return nDigitRandomNo;
     }
-
 }

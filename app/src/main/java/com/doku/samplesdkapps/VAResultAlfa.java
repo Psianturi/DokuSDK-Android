@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,10 +26,8 @@ public class VAResultAlfa extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.va_result_alfa);
-
         setupLayout();
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Payment");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -46,27 +43,22 @@ public class VAResultAlfa extends AppCompatActivity {
             }
         });
 
-        btnMini = (Button) findViewById(R.id.btnMini);
-        txtKodePembayaran = (TextView) findViewById(R.id.kodePembayaran);
-        txtInvoice = (TextView) findViewById(R.id.invoiceValue);
-        TxtTotal = (TextView) findViewById(R.id.totalValue);
-
+        btnMini = findViewById(R.id.btnMini);
+        txtKodePembayaran = findViewById(R.id.kodePembayaran);
+        txtInvoice = findViewById(R.id.invoiceValue);
+        TxtTotal = findViewById(R.id.totalValue);
 
         bundle = getIntent().getExtras();
         if (bundle != null) {
-
             Log.d("bundle", bundle.getString("data"));
-
             try {
                 JSONObject jsonObject = new JSONObject(bundle.getString("data"));
-
                 txtInvoice.setText(String.valueOf(AppsUtil.nDigitRandomNo(10)));
                 TxtTotal.setText("Rp. 15.000");
                 txtKodePembayaran.setText(jsonObject.getString("res_pay_code"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
 
         btnMini.setOnClickListener(new View.OnClickListener() {
@@ -77,24 +69,20 @@ public class VAResultAlfa extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     private void setupLayout() {
         TextView txtKode, kodePembayaran, invoiceTxt, invoiceValue, totalTxt, totalValue, ketTxt;
-        Button btnATM, btnMini;
+        Button btnMini;
 
-        txtKode = (TextView) findViewById(R.id.txtKode);
-        kodePembayaran = (TextView) findViewById(R.id.kodePembayaran);
-        invoiceTxt = (TextView) findViewById(R.id.invoiceTxt);
-        invoiceValue = (TextView) findViewById(R.id.invoiceValue);
-        totalTxt = (TextView) findViewById(R.id.totalTxt);
-        totalValue = (TextView) findViewById(R.id.totalValue);
-        ketTxt = (TextView) findViewById(R.id.ketTxt);
-
-        btnATM = (Button) findViewById(R.id.btnATM);
-        btnMini = (Button) findViewById(R.id.btnMini);
-
+        txtKode = findViewById(R.id.txtKode);
+        kodePembayaran = findViewById(R.id.kodePembayaran);
+        invoiceTxt = findViewById(R.id.invoiceTxt);
+        invoiceValue = findViewById(R.id.invoiceValue);
+        totalTxt = findViewById(R.id.totalTxt);
+        totalValue = findViewById(R.id.totalValue);
+        ketTxt = findViewById(R.id.ketTxt);
+        btnMini = findViewById(R.id.btnMini);
 
         AppsUtil.applyFont(getApplicationContext(), txtKode, "fonts/dokuregular.ttf");
         AppsUtil.applyFont(getApplicationContext(), kodePembayaran, "fonts/dokuregular.ttf");

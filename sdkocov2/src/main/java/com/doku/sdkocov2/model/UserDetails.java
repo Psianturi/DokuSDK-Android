@@ -4,8 +4,6 @@ package com.doku.sdkocov2.model;
  * Created by zaki on 2/25/16.
  */
 public class UserDetails {
-
-
     String responseCode;
     String responseMsg;
     String dpMallID;

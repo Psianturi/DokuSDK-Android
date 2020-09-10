@@ -10,25 +10,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.doku.sdkocov2.DirectSDK;
 import com.doku.sdkocov2.R;
 import com.doku.sdkocov2.utils.SDKUtils;
-
 import java.util.ArrayList;
 
 /**
  * Created by zaki on 3/14/16.
  */
 public class MainPaychanAdapter extends ArrayAdapter<String> {
-
-    //declare variable
     private final Context context;
-
     private final ArrayList<String> textPayChan;
     private final ArrayList<Integer> imageID;
 
-    //initiate adapter
     public MainPaychanAdapter(Context context, ArrayList<String> textPayChan,ArrayList<Integer> imageID) {
         super(context, R.layout.main_item, textPayChan);
         this.context = context;
@@ -36,30 +30,22 @@ public class MainPaychanAdapter extends ArrayAdapter<String> {
         this.imageID = imageID;
     }
 
-    //view function
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         try {
-            //declare variable
             final ViewHolder holder;
 
             if (convertView == null) {
-
-                //intiate view
                 holder = new ViewHolder();
-                convertView = LayoutInflater.from(context).inflate(
-                        R.layout.main_item, parent, false);
-                holder.textPay = (TextView) convertView.findViewById(R.id.textPay);
-                holder.masterLayout = (RelativeLayout) convertView.findViewById(R.id.masterLayout);
-                holder.imagePay = (ImageView) convertView
-                        .findViewById(R.id.imagePay);
-
+                convertView = LayoutInflater.from(context).inflate(R.layout.main_item, parent, false);
+                holder.textPay = convertView.findViewById(R.id.textPay);
+                holder.masterLayout = convertView.findViewById(R.id.masterLayout);
+                holder.imagePay = convertView.findViewById(R.id.imagePay);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            //get value
             holder.textPay.setText(textPayChan.get(position));
             holder.imagePay.setImageResource(imageID.get(position));
 
@@ -78,20 +64,15 @@ public class MainPaychanAdapter extends ArrayAdapter<String> {
             }
             this.notifyDataSetChanged();
 
-
         } catch (Exception e) {
-            Log.i(getClass().getSimpleName(),
-                    "Exception message [" + e.getMessage() + "]");
+            Log.i(getClass().getSimpleName(), "Exception message [" + e.getMessage() + "]");
         }
         return convertView;
     }
 
     private static class ViewHolder {
-        // Declare Variables
         TextView textPay;
         ImageView imagePay;
         RelativeLayout masterLayout;
-
     }
-
 }

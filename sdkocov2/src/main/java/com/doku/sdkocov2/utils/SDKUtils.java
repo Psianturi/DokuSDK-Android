@@ -5,14 +5,11 @@ import android.graphics.Typeface;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.widget.TextView;
-
 import com.doku.sdkocov2.DirectSDK;
-
 import org.bouncycastle.util.encoders.Base64;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.math.BigDecimal;
 import java.security.KeyFactory;
 import java.security.MessageDigest;
@@ -25,7 +22,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import java.util.regex.Pattern;
-
 import javax.crypto.Cipher;
 
 /**
@@ -39,24 +35,17 @@ public class SDKUtils {
     private static String regexNumberCC = "^(d+.)?d+$";
     private static String regexCvv = "^[0-9]+${3,4}";
 
-    public static void applyFont(Context context, TextView textView,
-                                 String fontPath) {
+    public static void applyFont(Context context, TextView textView, String fontPath) {
         try {
-
-            textView.setTypeface(Typeface.createFromAsset(
-                    context.getAssets(), fontPath));
+            textView.setTypeface(Typeface.createFromAsset(context.getAssets(), fontPath));
         } catch (Exception e) {
-            Log.e("Font Apply", String.format(
-                    "Error occured when trying to apply %s font for %s view",
-                    fontPath, textView));
+            Log.e("Font Apply", String.format("Error occured when trying to apply %s font for %s view", fontPath, textView));
             e.printStackTrace();
         }
     }
 
-    public static String validateValue(String input, Character type,
-                                       Integer minLgt, Integer maxLgt) {
+    public static String validateValue(String input, Character type, Integer minLgt, Integer maxLgt) {
         try {
-
             if (input == null || input.equals(""))
                 return Constants.VALIDATE_EMPTY_VALUE;
 
@@ -140,7 +129,6 @@ public class SDKUtils {
         }
     }
 
-
     private static String convertToHex(byte[] data) {
         StringBuffer buf = new StringBuffer();
         for (int i = 0; i < data.length; i++) {
@@ -157,12 +145,10 @@ public class SDKUtils {
         return buf.toString();
     }
 
-
     public static String createClientResponse(int code, String msg) {
         return "{\"res_response_code\":\"" + code + "\",\"res_response_msg\":\"" + msg
                 + "\"}";
     }
-
 
     public static String createErrorResponse(int code, String msg) {
         JSONObject jGroup = new JSONObject();// /sub Object
@@ -249,7 +235,6 @@ public class SDKUtils {
         return jGroup.toString();
     }
 
-
     public static String createRequestSecondPay(String data_merchant_code, String data_transaction_id, String data_payment_channel,
                                                 String data_amount, String data_currency, String data_secret, String data_chain_merchant, String data_basket,
                                                 String data_words, String data_session_id, String data_device_id, String pairing_code, String token_payment) {
@@ -276,7 +261,6 @@ public class SDKUtils {
         }
         return jGroup.toString();
     }
-
 
     public static String createRequestTokenWallet(String data_merchant_code, String data_transaction_id, String data_payment_channel,
                                                   String data_amount, String data_currency, String data_chain_merchant, String data_basket,
@@ -306,7 +290,6 @@ public class SDKUtils {
         return jGroup.toString();
 
     }
-
 
     public static String createRequestCashWallet(String channelCode, String customerPin, String inquiryCode, String custName,
                                                  String custEmail, String dokuID, String tokenID, String pairingCode, String merchantWords) {
@@ -407,7 +390,6 @@ public class SDKUtils {
         return jSub.toString();
     }
 
-
     public static String createResponseCashWallet(String tokenID, String pairingCode, String responseMsg, String responseCode, String deviceID, String dataAmount,
                                                   String tokenCode, String transactionID, String name, String email, String mobilePhone) {
 
@@ -468,7 +450,6 @@ public class SDKUtils {
 
         return jSub.toString();
     }
-
 
     public static String createRequest3D(String tokenID, String pairingCode, String words) {
         JSONObject jGroup = new JSONObject();// /main Object
@@ -619,7 +600,6 @@ public class SDKUtils {
         }
     }
 
-
     public static String Encrypt(String plaintext, String publicKeyString) {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
@@ -638,6 +618,5 @@ public class SDKUtils {
             return null;
         }
     }
-
 
 }

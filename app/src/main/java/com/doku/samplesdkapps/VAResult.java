@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,20 +16,18 @@ import org.json.JSONObject;
  * Created by zaki on 3/28/16.
  */
 public class VAResult extends AppCompatActivity {
-
     Button btnATM;
     TextView txtInvoice, TxtTotal, txtKodePembayaran;
     private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.va_result);
 
         setupLayout();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Payment");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -46,27 +43,22 @@ public class VAResult extends AppCompatActivity {
             }
         });
 
-        btnATM = (Button) findViewById(R.id.btnATM);
-        txtKodePembayaran = (TextView) findViewById(R.id.kodePembayaran);
-        txtInvoice = (TextView) findViewById(R.id.invoiceValue);
-        TxtTotal = (TextView) findViewById(R.id.totalValue);
-
-
+        btnATM = findViewById(R.id.btnATM);
+        txtKodePembayaran = findViewById(R.id.kodePembayaran);
+        txtInvoice = findViewById(R.id.invoiceValue);
+        TxtTotal = findViewById(R.id.totalValue);
         bundle = getIntent().getExtras();
+
         if (bundle != null) {
-
             Log.d("bundle", bundle.getString("data"));
-
             try {
                 JSONObject jsonObject = new JSONObject(bundle.getString("data"));
-
                 txtInvoice.setText(String.valueOf(AppsUtil.nDigitRandomNo(10)));
                 TxtTotal.setText("Rp. 15.000");
                 txtKodePembayaran.setText(jsonObject.getString("res_pay_code"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
 
         btnATM.setOnClickListener(new View.OnClickListener() {
@@ -77,25 +69,20 @@ public class VAResult extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 
     private void setupLayout() {
         TextView txtKode, kodePembayaran, invoiceTxt, invoiceValue, totalTxt, totalValue, ketTxt;
-        Button btnATM, btnMini;
+        Button btnATM;
 
-        txtKode = (TextView) findViewById(R.id.txtKode);
-        kodePembayaran = (TextView) findViewById(R.id.kodePembayaran);
-        invoiceTxt = (TextView) findViewById(R.id.invoiceTxt);
-        invoiceValue = (TextView) findViewById(R.id.invoiceValue);
-        totalTxt = (TextView) findViewById(R.id.totalTxt);
-        totalValue = (TextView) findViewById(R.id.totalValue);
-        ketTxt = (TextView) findViewById(R.id.ketTxt);
-
-        btnATM = (Button) findViewById(R.id.btnATM);
-        btnMini = (Button) findViewById(R.id.btnMini);
-
+        txtKode = findViewById(R.id.txtKode);
+        kodePembayaran = findViewById(R.id.kodePembayaran);
+        invoiceTxt = findViewById(R.id.invoiceTxt);
+        invoiceValue = findViewById(R.id.invoiceValue);
+        totalTxt = findViewById(R.id.totalTxt);
+        totalValue = findViewById(R.id.totalValue);
+        ketTxt = findViewById(R.id.ketTxt);
+        btnATM = findViewById(R.id.btnATM);
 
         AppsUtil.applyFont(getApplicationContext(), txtKode, "fonts/dokuregular.ttf");
         AppsUtil.applyFont(getApplicationContext(), kodePembayaran, "fonts/dokuregular.ttf");

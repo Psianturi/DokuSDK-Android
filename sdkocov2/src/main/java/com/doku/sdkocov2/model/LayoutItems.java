@@ -16,9 +16,7 @@ public class LayoutItems {
     String buttonTextColor;
     Drawable buttonBackground;
 
-    public LayoutItems() {
-
-    }
+    public LayoutItems() {}
 
     public String getButtonTextColor() {
         return buttonTextColor;

@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.doku.sdkocov2.dokupayment.ListDokuPayChan;
 import com.doku.sdkocov2.dokupayment.SessionTimeOutFragment;
 import com.doku.sdkocov2.dokupayment.WalletCCPayment;
@@ -24,7 +23,6 @@ import com.doku.sdkocov2.dokupayment.WalletPaymentFragment;
 import com.doku.sdkocov2.interfaces.iSDKback;
 import com.doku.sdkocov2.utils.ImageUtil;
 import com.doku.sdkocov2.utils.SDKUtils;
-
 import java.io.InputStream;
 
 /**
@@ -46,36 +44,28 @@ public class BaseDokuWalletActivity extends FragmentActivity {
 
         setupLayout();
 
-
         timeoutTimer = new CountDownTimer((600 * 1000), 1000) {
-
-            public void onTick(long millisUntilFinished) {
-            }
-
+            public void onTick(long millisUntilFinished) {}
             public void onFinish() {
                 sessionExpired = true;
                 openSessionTimeout();
             }
         }.start();
 
-
-        //define layout
-        toolbarValue = (TextView) findViewById(R.id.toolbarValue);
-        backButton = (ImageView) findViewById(R.id.backButton);
+        toolbarValue = findViewById(R.id.toolbarValue);
+        backButton = findViewById(R.id.backButton);
         toolbarValue.setText(SDKUtils.EYDNumberFormat(DirectSDK.paymentItems.getDataAmount()));
-        profileView = (ImageView) findViewById(R.id.profilePic);
+        profileView = findViewById(R.id.profilePic);
 
         try {
-
             if (DirectSDK.userDetails.getAvatar() != null) {
                 new DownloadImageTask(profileView).execute(DirectSDK.userDetails.getAvatar());
             }
-
         } catch (Exception e) {
             DirectSDK.callbackResponse.onException(e);
         }
 
-        dokuName = (TextView) findViewById(R.id.dokuName);
+        dokuName = findViewById(R.id.dokuName);
 
         dokuName.setText(DirectSDK.userDetails.getCustomerName());
 
@@ -84,10 +74,8 @@ public class BaseDokuWalletActivity extends FragmentActivity {
 
     private void selectItem(int position) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        // Locate Position
         Fragment fragment = null;
         bundleState = new Bundle();
-
         switch (position) {
             case 0:
                 fragment = new ListDokuPayChan();
@@ -112,20 +100,17 @@ public class BaseDokuWalletActivity extends FragmentActivity {
         ft.commit();
     }
 
-    //setting layout
     private void setupLayout() {
-        //define layout
         RelativeLayout toolbarTop;
         TextView textPayment, toolbarValue, idrValue, dokuName;
         RelativeLayout masterLayout;
 
-        masterLayout = (RelativeLayout) findViewById(R.id.masterLayout);
-        toolbarTop = (RelativeLayout) findViewById(R.id.toolbarTop);
-        textPayment = (TextView) findViewById(R.id.textPayment);
-        toolbarValue = (TextView) findViewById(R.id.toolbarValue);
-        idrValue = (TextView) findViewById(R.id.idrValue);
-        dokuName = (TextView) findViewById(R.id.dokuName);
-
+        masterLayout = findViewById(R.id.masterLayout);
+        toolbarTop = findViewById(R.id.toolbarTop);
+        textPayment = findViewById(R.id.textPayment);
+        toolbarValue = findViewById(R.id.toolbarValue);
+        idrValue = findViewById(R.id.idrValue);
+        dokuName = findViewById(R.id.dokuName);
 
         if (DirectSDK.layoutItems.getFontPath() != null) {
             SDKUtils.applyFont(DirectSDK.context, textPayment, DirectSDK.layoutItems.getFontPath());
@@ -139,12 +124,10 @@ public class BaseDokuWalletActivity extends FragmentActivity {
             SDKUtils.applyFont(getApplicationContext(), dokuName, "fonts/dokuregular.ttf");
         }
 
-        //font color
         if (DirectSDK.layoutItems.getFontColor() != null) {
             dokuName.setTextColor(Color.parseColor(DirectSDK.layoutItems.getFontColor()));
         }
 
-        //set layout
         if (DirectSDK.layoutItems.getToolbarColor() != null) {
             toolbarTop.setBackgroundColor(Color.parseColor(DirectSDK.layoutItems.getToolbarColor()));
         }
@@ -162,27 +145,21 @@ public class BaseDokuWalletActivity extends FragmentActivity {
         if (DirectSDK.layoutItems.getBackgroundColor() != null) {
             masterLayout.setBackgroundColor(Color.parseColor(DirectSDK.layoutItems.getBackgroundColor()));
         }
-
-
     }
 
     @Override
     public void onBackPressed() {
-
         Fragment frag = getSupportFragmentManager().findFragmentById(R.id.main_dokuWallet);
-
         try {
             if (frag instanceof ListDokuPayChan) {
                 if (timeoutTimer != null) {
                     timeoutTimer.cancel();
                     timeoutTimer = null;
                 }
-
                 if (doubleBackToExitPressedOnce) {
                     DirectSDK.callbackResponse.onError(SDKUtils.createClientResponse(200, "canceled by user"));
                     finish();
                 }
-
                 this.doubleBackToExitPressedOnce = true;
                 Toast.makeText(this, "Please click BACK again to cancel Payment", Toast.LENGTH_SHORT).show();
 
@@ -201,12 +178,10 @@ public class BaseDokuWalletActivity extends FragmentActivity {
                     super.onBackPressed();
                 }
             }
-
         } catch (Exception e) {
             DirectSDK.callbackResponse.onError(SDKUtils.createClientResponse(200, "canceled by user"));
             finish();
         }
-
     }
 
     @Override
@@ -218,7 +193,6 @@ public class BaseDokuWalletActivity extends FragmentActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
     }
 
     @Override
@@ -227,20 +201,17 @@ public class BaseDokuWalletActivity extends FragmentActivity {
     }
 
     private void openSessionTimeout() {
-
         if (sessionExpired) {
             bundleState.putInt("stateback", 3);
             Intent intent = new Intent(BaseDokuWalletActivity.this, SessionTimeOutFragment.class);
             intent.putExtra("stateback", 3);
             startActivity(intent);
             finish();
-        } else {
-        }
+        } else {}
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
-
         public DownloadImageTask(ImageView bmImage) {
             this.bmImage = bmImage;
         }
@@ -266,6 +237,4 @@ public class BaseDokuWalletActivity extends FragmentActivity {
             }
         }
     }
-
-
 }

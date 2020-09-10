@@ -2,6 +2,7 @@ package com.doku.sdkocov2.dokupayment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -18,7 +19,6 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.doku.sdkocov2.BaseDokuWalletActivity;
 import com.doku.sdkocov2.DirectSDK;
 import com.doku.sdkocov2.R;
@@ -32,15 +32,10 @@ import com.doku.sdkocov2.utils.ExpiryDateFormatWatcher;
 import com.doku.sdkocov2.utils.FourDigitCardFormatWatcher;
 import com.doku.sdkocov2.utils.SDKConnections;
 import com.doku.sdkocov2.utils.SDKUtils;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -49,8 +44,6 @@ import java.util.List;
  * Created by zaki on 2/25/16.
  */
 public class WalletCCRegister extends Fragment implements iSDKback {
-
-    //declare variable
     View view;
     EditText mobilePhoneValue, emailValue, cardHoldervalue, cardNumber;
     Button btnSubmit;
@@ -63,9 +56,7 @@ public class WalletCCRegister extends Fragment implements iSDKback {
     String conResult;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.cc_payment, container, false);
 
         BaseDokuWalletActivity.backButton.setVisibility(View.VISIBLE);
@@ -76,39 +67,33 @@ public class WalletCCRegister extends Fragment implements iSDKback {
                 ft.replace(R.id.main_dokuWallet, new ListDokuPayChan());
                 ft.addToBackStack(null);
                 ft.commit();
-
             }
         });
+
         bundle = getArguments();
         if (bundle != null) {
             channelCode = bundle.getString("channelCode");
         }
-
         sb.setLength(0);
 
-        //define layout
-        mobilePhoneValue = (EditText) view.findViewById(R.id.mobilePhoneValue);
-        emailValue = (EditText) view.findViewById(R.id.emailValue);
-        cardHoldervalue = (EditText) view.findViewById(R.id.cardHoldervalue);
-        cardNumber = (EditText) view.findViewById(R.id.cardNumber);
-        cvvValue = (CustomEditText) view.findViewById(R.id.cvvValue);
-        validValue = (EditText) view.findViewById(R.id.validValue);
-        btnSubmit = (Button) view.findViewById(R.id.btnSubmit);
+        mobilePhoneValue = view.findViewById(R.id.mobilePhoneValue);
+        emailValue = view.findViewById(R.id.emailValue);
+        cardHoldervalue = view.findViewById(R.id.cardHoldervalue);
+        cardNumber = view.findViewById(R.id.cardNumber);
+        cvvValue = view.findViewById(R.id.cvvValue);
+        validValue = view.findViewById(R.id.validValue);
+        btnSubmit = view.findViewById(R.id.btnSubmit);
 
         if (DirectSDK.paymentItems.getMobilePhone() != null) {
             mobilePhoneValue.setText(DirectSDK.paymentItems.getMobilePhone());
         }
 
-        //setup layout
         setupLayout();
 
-        //function validation for valid value date MM/YY and add 'slash' after month
         validValue.addTextChangedListener(new ExpiryDateFormatWatcher(validValue));
 
-        //cardNumber separate after 4 digits
         cardNumber.addTextChangedListener(new FourDigitCardFormatWatcher());
 
-        //set button submit action
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,35 +102,25 @@ public class WalletCCRegister extends Fragment implements iSDKback {
         });
 
         cvvValue.setDrawableClickListener(new DrawableClickListener() {
-
-
             public void onClick(DrawablePosition target) {
                 switch (target) {
                     case RIGHT:
-                        //Do something here
                         Toast.makeText(getContext(), "Insert last 3 number from back of your credit card", Toast.LENGTH_SHORT).show();
                         break;
-
                     default:
                         break;
                 }
             }
-
         });
-
         return view;
     }
 
-
-    //validation input credit card
     private void attemptSubmit() {
         try {
-            //declare variable validation
             boolean cancel = false;
             View focusView = null;
             String vldtRslt;
 
-            //get value from edittext
             getCardHolder = cardHoldervalue.getText().toString().trim();
             getCardNumber = cardNumber.getText().toString().replace("-", "");
             getCvv = cvvValue.getText().toString();
@@ -153,10 +128,8 @@ public class WalletCCRegister extends Fragment implements iSDKback {
             getPhoneNumber = mobilePhoneValue.getText().toString();
             getValidValue = validValue.getText().toString();
 
-            //begin validation
             vldtRslt = SDKUtils.validateValue(getCardHolder, 'S', 0, 1024);
             if (!vldtRslt.equals(Constants.VALIDATE_SUCCESS)) {
-
                 cardHoldervalue
                         .setError(getString(vldtRslt
                                 .equals(Constants.VALIDATE_EMPTY_VALUE) ? R.string.error_field_required
@@ -167,8 +140,6 @@ public class WalletCCRegister extends Fragment implements iSDKback {
                 cancel = true;
             }
 
-
-            //get Card Type
             CardModel cardType = CardModel.fromCardNumber(getCardNumber.replace("-", ""));
             String getCardType = cardType.getDisplayName(getCardNumber.replace("-", ""));
 
@@ -184,18 +155,14 @@ public class WalletCCRegister extends Fragment implements iSDKback {
                 focusView = cardNumber;
                 cancel = true;
             } else if (getCardType == null) {
-                cardNumber
-                        .setError(getString(R.string.cc_not_valid));
+                cardNumber.setError(getString(R.string.cc_not_valid));
                 focusView = cardNumber;
                 cancel = true;
-
             }
 
             vldtRslt = SDKUtils.validateValue(getCvv, 'C');
             if (!vldtRslt.equals(Constants.VALIDATE_SUCCESS)) {
-
-                cvvValue
-                        .setError(getString(vldtRslt
+                cvvValue.setError(getString(vldtRslt
                                 .equals(Constants.VALIDATE_EMPTY_VALUE) ? R.string.error_field_required
                                 : (vldtRslt
                                 .equals(Constants.VALIDATE_INVALID_FORMAT) ? R.string.error_invalid_format
@@ -206,8 +173,7 @@ public class WalletCCRegister extends Fragment implements iSDKback {
 
             vldtRslt = SDKUtils.validateValue(getEmail, 'E');
             if (!vldtRslt.equals(Constants.VALIDATE_SUCCESS)) {
-                emailValue
-                        .setError(getString(vldtRslt
+                emailValue.setError(getString(vldtRslt
                                 .equals(Constants.VALIDATE_EMPTY_VALUE) ? R.string.error_field_required
                                 : (vldtRslt
                                 .equals(Constants.VALIDATE_INVALID_FORMAT) ? R.string.error_invalid_email
@@ -219,8 +185,7 @@ public class WalletCCRegister extends Fragment implements iSDKback {
 
             vldtRslt = SDKUtils.validateValue(getPhoneNumber, 'M');
             if (!vldtRslt.equals(Constants.VALIDATE_SUCCESS)) {
-                mobilePhoneValue
-                        .setError(getString(vldtRslt
+                mobilePhoneValue.setError(getString(vldtRslt
                                 .equals(Constants.VALIDATE_EMPTY_VALUE) ? R.string.error_field_required
                                 : (vldtRslt
                                 .equals(Constants.VALIDATE_INVALID_FORMAT) ? R.string.error_invalid_email
@@ -258,9 +223,7 @@ public class WalletCCRegister extends Fragment implements iSDKback {
                     cancel = true;
                 }
             }
-            //end validation
 
-            //start new background process
             if (!cancel) {
                 new PrepaymentCCRegister().execute();
 
@@ -270,50 +233,43 @@ public class WalletCCRegister extends Fragment implements iSDKback {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-
             if (data.getStringExtra("result").equalsIgnoreCase("doRequestResponse")) {
-                //do magical request response
                 new check3dSecure().execute();
             } else if (data.getStringExtra("result").equalsIgnoreCase("propertyNull")) {
-                //handle error request
                 DirectSDK.callbackResponse.onError(SDKUtils.createClientResponse(300, "data null"));
             }
         }
     }
 
     private void setupLayout() {
-
-        //define layout
         Button btnSubmit;
         EditText cardNumber, cvvValue, cardHoldervalue, validValue, emailValue, mobilePhoneValue;
         TextView cardNumberTxt, cvvText, cardHolderTxt, validTxt, emailTxt, mobilePhoneTxt;
         ScrollView masterLayout;
 
-        masterLayout = (ScrollView) view.findViewById(R.id.masterLayout);
-        btnSubmit = (Button) view.findViewById(R.id.btnSubmit);
+        masterLayout =  view.findViewById(R.id.masterLayout);
+        btnSubmit = view.findViewById(R.id.btnSubmit);
 
-        cardNumber = (EditText) view.findViewById(R.id.cardNumber);
-        cvvValue = (EditText) view.findViewById(R.id.cvvValue);
-        cardHoldervalue = (EditText) view.findViewById(R.id.cardHoldervalue);
-        validValue = (EditText) view.findViewById(R.id.validValue);
-        emailValue = (EditText) view.findViewById(R.id.emailValue);
-        mobilePhoneValue = (EditText) view.findViewById(R.id.mobilePhoneValue);
+        cardNumber = view.findViewById(R.id.cardNumber);
+        cvvValue = view.findViewById(R.id.cvvValue);
+        cardHoldervalue = view.findViewById(R.id.cardHoldervalue);
+        validValue = view.findViewById(R.id.validValue);
+        emailValue = view.findViewById(R.id.emailValue);
+        mobilePhoneValue = view.findViewById(R.id.mobilePhoneValue);
 
-        cardNumberTxt = (TextView) view.findViewById(R.id.cardNumberTxt);
-        cvvText = (TextView) view.findViewById(R.id.cvvText);
-        cardHolderTxt = (TextView) view.findViewById(R.id.cardHolderTxt);
-        validTxt = (TextView) view.findViewById(R.id.validTxt);
-        emailTxt = (TextView) view.findViewById(R.id.emailTxt);
-        mobilePhoneTxt = (TextView) view.findViewById(R.id.mobilePhoneTxt);
+        cardNumberTxt = view.findViewById(R.id.cardNumberTxt);
+        cvvText = view.findViewById(R.id.cvvText);
+        cardHolderTxt = view.findViewById(R.id.cardHolderTxt);
+        validTxt = view.findViewById(R.id.validTxt);
+        emailTxt = view.findViewById(R.id.emailTxt);
+        mobilePhoneTxt = view.findViewById(R.id.mobilePhoneTxt);
 
-        //apply font
         if (DirectSDK.layoutItems.getFontPath() != null) {
             SDKUtils.applyFont(DirectSDK.context, btnSubmit, DirectSDK.layoutItems.getFontPath());
 
@@ -346,10 +302,8 @@ public class WalletCCRegister extends Fragment implements iSDKback {
             SDKUtils.applyFont(getActivity(), validTxt, "fonts/dokuregular.ttf");
             SDKUtils.applyFont(getActivity(), emailTxt, "fonts/dokuregular.ttf");
             SDKUtils.applyFont(getActivity(), mobilePhoneTxt, "fonts/dokuregular.ttf");
-
         }
 
-        //font color
         if (DirectSDK.layoutItems.getFontColor() != null) {
             cardNumber.setTextColor(Color.parseColor(DirectSDK.layoutItems.getFontColor()));
             cvvValue.setTextColor(Color.parseColor(DirectSDK.layoutItems.getFontColor()));
@@ -357,9 +311,7 @@ public class WalletCCRegister extends Fragment implements iSDKback {
             validValue.setTextColor(Color.parseColor(DirectSDK.layoutItems.getFontColor()));
             emailValue.setTextColor(Color.parseColor(DirectSDK.layoutItems.getFontColor()));
             mobilePhoneValue.setTextColor(Color.parseColor(DirectSDK.layoutItems.getFontColor()));
-
         }
-
 
         if (DirectSDK.layoutItems.getBackgroundColor() != null) {
             masterLayout.setBackgroundColor(Color.parseColor(DirectSDK.layoutItems.getBackgroundColor()));
@@ -378,8 +330,6 @@ public class WalletCCRegister extends Fragment implements iSDKback {
         }
 
         if (DirectSDK.layoutItems.getLabelTextColor() != null) {
-
-
             cardNumberTxt.setTextColor(Color.parseColor(DirectSDK.layoutItems.getLabelTextColor()));
             cvvText.setTextColor(Color.parseColor(DirectSDK.layoutItems.getLabelTextColor()));
             cardHolderTxt.setTextColor(Color.parseColor(DirectSDK.layoutItems.getLabelTextColor()));
@@ -387,7 +337,6 @@ public class WalletCCRegister extends Fragment implements iSDKback {
             emailTxt.setTextColor(Color.parseColor(DirectSDK.layoutItems.getLabelTextColor()));
             mobilePhoneTxt.setTextColor(Color.parseColor(DirectSDK.layoutItems.getLabelTextColor()));
         }
-
     }
 
     @Override
@@ -396,14 +345,10 @@ public class WalletCCRegister extends Fragment implements iSDKback {
         ft.replace(R.id.main_dokuWallet, new ListDokuPayChan());
         ft.addToBackStack(null);
         ft.commit();
-
     }
 
-    //background process
     private class PrepaymentCCRegister extends AsyncTask<String, String, JSONObject> {
-
         private ProgressDialog pDialog;
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -427,28 +372,18 @@ public class WalletCCRegister extends Fragment implements iSDKback {
             String expiryDate = values.get(1) + values.get(0);
 
             try {
-
-                //create json request
                 String dataJson = SDKUtils.createRegisterCCWallet(DirectSDK.loginModel.getTokenID(), DirectSDK.loginModel.getPairingCode(), DirectSDK.paymentItems.getDataWords(),
                         SDKUtils.Encrypt(expiryDate, DirectSDK.paymentItems.getPublicKey()), SDKUtils.Encrypt(getCardNumber, DirectSDK.paymentItems.getPublicKey()), getCardHolder,
                         SDKUtils.Encrypt(getCvv, DirectSDK.paymentItems.getPublicKey()), getPhoneNumber, SDKUtils.Encrypt(getEmail, DirectSDK.paymentItems.getPublicKey()), channelCode,
                         DirectSDK.userDetails.getInquiryCode(), SDKUtils.Encrypt(DirectSDK.userDetails.getDokuID(), DirectSDK.paymentItems.getPublicKey()));
 
-
-                List<NameValuePair> data = new ArrayList<NameValuePair>(3);
-                data.add(new BasicNameValuePair("data", dataJson));
-
+                ContentValues data = new ContentValues();
+                data.put("data", dataJson);
 
                 if (DirectSDK.paymentItems.getIsProduction() == true) {
-
-                    // Getting JSON from URL
-                     conResult = SDKConnections.httpsConnection(getActivity(),
-                            Constants.URL_prePaymentProd, data);
+                     conResult = SDKConnections.httpsConnection(getActivity(), Constants.URL_prePaymentProd, data);
                 } else {
-                    // Getting JSON from URL
-                     conResult = SDKConnections.httpsConnection(getActivity(),
-                            Constants.URL_prePaymentDev, data);
-
+                     conResult = SDKConnections.httpsConnection(getActivity(), Constants.URL_prePaymentDev, data);
                 }
 
                 if (conResult != null) {
@@ -466,22 +401,16 @@ public class WalletCCRegister extends Fragment implements iSDKback {
 
         @Override
         protected void onPostExecute(JSONObject json) {
-
             pDialog.dismiss();
             try {
-
                 if (json != null) {
                     if (json.getString("res_response_code").equalsIgnoreCase("0000")) {
-
-
                         if (json.has("res_result_3D")) {
-
                             JSONObject secureData = new JSONObject(json.getString("res_result_3D"));
                             String ACSURL = secureData.getString("ACSURL");
                             String TERMURL = secureData.getString("TERMURL");
                             String PAREQ = secureData.getString("PAREQ");
                             String MD = secureData.getString("MD");
-
 
                             Intent i = new Intent(getActivity(), SecurePayment.class);
                             i.putExtra("ACSURL", ACSURL);
@@ -517,9 +446,7 @@ public class WalletCCRegister extends Fragment implements iSDKback {
         }
     }
 
-    //background process
     private class check3dSecure extends AsyncTask<String, String, JSONObject> {
-
         private ProgressDialog pDialog;
 
         @Override
@@ -530,32 +457,22 @@ public class WalletCCRegister extends Fragment implements iSDKback {
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
-
         }
 
         @Override
         protected JSONObject doInBackground(String... args) {
             JSONObject defResp;
-
             try {
-
-                //create json request
                 String dataJson = SDKUtils.createRequest3D(DirectSDK.loginModel.getTokenID(), DirectSDK.loginModel.getPairingCode(), DirectSDK.paymentItems.getDataWords());
 
-
-                List<NameValuePair> data = new ArrayList<NameValuePair>(3);
-                data.add(new BasicNameValuePair("data", dataJson));
+                ContentValues data = new ContentValues();
+                data.put("data", dataJson);
 
                 if (DirectSDK.paymentItems.getIsProduction() == true) {
-                    // Getting JSON from URL
-                    conResult = SDKConnections.httpsConnection(getActivity(),
-                            Constants.URL_CHECK3dStatusProd, data);
+                    conResult = SDKConnections.httpsConnection(getActivity(), Constants.URL_CHECK3dStatusProd, data);
 
                 } else {
-                    // Getting JSON from URL
-                    conResult = SDKConnections.httpsConnection(getActivity(),
-                            Constants.URL_CHECK3dStatusDev, data);
-
+                    conResult = SDKConnections.httpsConnection(getActivity(), Constants.URL_CHECK3dStatusDev, data);
                 }
 
                 if (conResult != null) {
@@ -572,7 +489,6 @@ public class WalletCCRegister extends Fragment implements iSDKback {
 
         @Override
         protected void onPostExecute(JSONObject json) {
-
             pDialog.dismiss();
 
             try {
@@ -595,7 +511,6 @@ public class WalletCCRegister extends Fragment implements iSDKback {
             } catch (JSONException e) {
                 DirectSDK.callbackResponse.onException(e);
             }
-
         }
     }
 }

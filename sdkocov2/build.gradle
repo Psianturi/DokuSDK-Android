@@ -1,21 +1,26 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
-
-    useLibrary 'org.apache.http.legacy'
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 26
-        versionCode 2
-        versionName "2.0.1"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 3
+        versionName "2.0.7"
+    }
+
+    packagingOptions {
+        exclude 'META-INF/BCKEY.DSA'
+        exclude 'META-INF/BCKEY.SF'
     }
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:26.+'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile files('libs/bcprov-jdk15-146.jar')
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation files('libs/bcprov-jdk15-146.jar')
 }

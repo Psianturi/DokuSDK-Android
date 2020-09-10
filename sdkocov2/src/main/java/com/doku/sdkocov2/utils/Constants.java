@@ -13,7 +13,7 @@ public class Constants {
     //staging
     public static String ConfigUrlDev = "https://staging.doku.com";
     //production
-    public static String ConfigUrlProd = "https://pay.doku.com/";
+    public static String ConfigUrlProd = "https://pay.doku.com";
 
     //staging
     public static final String URL_getTokenDev = ConfigUrlDev + "/api/payment/getToken";

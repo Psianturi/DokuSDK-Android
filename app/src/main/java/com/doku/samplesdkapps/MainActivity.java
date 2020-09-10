@@ -1,16 +1,12 @@
 package com.doku.samplesdkapps;
 
-import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
@@ -20,23 +16,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.doku.sdkocov2.DirectSDK;
 import com.doku.sdkocov2.interfaces.iPaymentCallback;
 import com.doku.sdkocov2.model.LayoutItems;
 import com.doku.sdkocov2.model.PaymentItems;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
-    //declare variable
     DirectSDK directSDK;
     String invoiceNumber;
     JSONObject respongetTokenSDK;
@@ -46,8 +33,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int REQUEST_CODE_VIRTUALACCOUNT = 4;
     TelephonyManager telephonyManager;
     String responseToken, Challenge1, Challenge2, Challenge3, debitCard;
-    private static final int REQUEST_PHONE = 1;
-    private static String[] PERMISSION_PHONE = {Manifest.permission.READ_PHONE_STATE};
     String tokenPayment = null;
     String customerID = null;
     String deviceID = "";
@@ -59,48 +44,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
-        deviceID = getDeviceID();
+        deviceID = "DEMOSDK-"+ AppsUtil.generateInvoiceId();
         System.out.println("DEVICE ID " + deviceID);
         initiateToolbar();
         initiateLayout();
-
-        //button onCLickListener via interface on Activity
-
-
-    }
-
-    private String getDeviceID() {
-
-        if (ActivityCompat.checkSelfPermission(MainActivity.this, String.valueOf(PERMISSION_PHONE))
-                != PackageManager.PERMISSION_GRANTED) {
-            getPermissionFirst();
-        } else {
-            return telephonyManager.getDeviceId();
-        }
-
-        return telephonyManager.getDeviceId();
     }
 
     private void initiateToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setLogo(R.drawable.ico_merchant);
         toolbar.setTitle("Payment");
-        TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
         AppsUtil.applyFont(getApplicationContext(), mTitle, "fonts/dokuregular.ttf");
-
         setSupportActionBar(toolbar);
     }
 
     private void initiateLayout() {
-        emailInput = (EditText) findViewById(R.id.emailInput);
+        emailInput = findViewById(R.id.emailInput);
         emailInput.setText("jauhap@doku.com");
-        buttonCC = (Button) findViewById(R.id.buttonCCRegular);
-        buttonFirstPay = (Button) findViewById(R.id.buttonCCFirstPay);
-        buttonSecondPay = (Button) findViewById(R.id.buttonCCSecondPay);
-        buttonDOKU = (Button) findViewById(R.id.buttonDOKU);
-        buttonMandiri = (Button) findViewById(R.id.buttonMandiriClick);
-        buttonVA = (Button) findViewById(R.id.buttonVA);
-        buttonAlfa = (Button) findViewById(R.id.buttonAlfaVA);
+        buttonCC = findViewById(R.id.buttonCCRegular);
+        buttonFirstPay = findViewById(R.id.buttonCCFirstPay);
+        buttonSecondPay = findViewById(R.id.buttonCCSecondPay);
+        buttonDOKU = findViewById(R.id.buttonDOKU);
+        buttonMandiri = findViewById(R.id.buttonMandiriClick);
+        buttonVA = findViewById(R.id.buttonVA);
+        buttonAlfa = findViewById(R.id.buttonAlfaVA);
 
         buttonCC.setOnClickListener(this);
         buttonFirstPay.setOnClickListener(this);
@@ -109,12 +77,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonMandiri.setOnClickListener(this);
         buttonVA.setOnClickListener(this);
         buttonAlfa.setOnClickListener(this);
-        //connectSDK(1);
     }
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.buttonCCRegular:
                 connectSDK(1);
@@ -141,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivityForResult(intentAlfaVA, REQUEST_CODE_VIRTUALACCOUNT);
                 break;
         }
-
     }
 
     private void BackToMainPage(){
@@ -150,22 +115,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void connectSDK(int menuPaymentChannel) {
-
-        //set payment parameter
         invoiceNumber = String.valueOf(AppsUtil.nDigitRandomNo(10));
-
         directSDK = new DirectSDK();
         System.out.println("invoiceNumber regular" + invoiceNumber);
 
-        PaymentItems cardDetails = null;
+        PaymentItems cardDetails;
         cardDetails = InputCard();
         directSDK.setCart_details(cardDetails);
-
-//        //set layout parameter
-//        LayoutItems layoutItems = null;
-//        layoutItems = setLayout();
-//        directSDK.setLayout(layoutItems);
-
         directSDK.setPaymentChannel(menuPaymentChannel);
         directSDK.getResponse(new iPaymentCallback() {
 
@@ -173,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onSuccess(final String text) {
                 try {
                     respongetTokenSDK = new JSONObject(text);
-
                     if (respongetTokenSDK.getString("res_response_code").equalsIgnoreCase("0000")) {
                         jsonRespon = text;
                         Log.d("json", text);
@@ -182,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
@@ -198,10 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }, getApplicationContext());
     }
 
-
     private void connectFirstPay(int menuPaymentChannel) {
-
-        //set payment parameter first pay
         invoiceNumber = String.valueOf(AppsUtil.nDigitRandomNo(10));
 
         Log.d("invoice connectFirstPay", invoiceNumber);
@@ -226,16 +177,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         paymentItems.isProduction(false);
         paymentItems.setCustomerID(customerID);
         directSDK.setCart_details(paymentItems);
-
-        //set layout parameter
-//        LayoutItems layoutItems = null;
-//        layoutItems = setLayout();
-//        directSDK.setLayout(layoutItems);
-
         directSDK.setPaymentChannel(menuPaymentChannel);
 
         directSDK.getResponse(new iPaymentCallback() {
-
             @Override
             public void onSuccess(final String text) {
                 try {
@@ -261,16 +205,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }, getApplicationContext());
 
-
         tokenPayment = null;
         customerID = null;
     }
 
-
     private void connectSecondPay(int menuPaymentChannel) {
-        //set payment parameter
         invoiceNumber = String.valueOf(AppsUtil.nDigitRandomNo(10));
-
         directSDK = new DirectSDK();
         Log.d(" connectSecondPay", invoiceNumber);
 
@@ -292,17 +232,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         paymentItems.setTokenPayment("32a381a0e37771a047af9a1ee870f1e6effaf2ad");
         directSDK.setCart_details(paymentItems);
 
-//        //set layout parameter
-//        LayoutItems layoutItems = null;
-//        layoutItems = setLayout();
-//        directSDK.setLayout(layoutItems);
-
         directSDK.setPaymentChannel(menuPaymentChannel);
         directSDK.getResponse(new iPaymentCallback() {
-
             @Override
             public void onSuccess(final String text) {
-
                 try {
                     respongetTokenSDK = new JSONObject(text);
 
@@ -314,7 +247,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
@@ -332,7 +264,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         customerID = null;
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -343,11 +274,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Challenge2 = data.getStringExtra("challenge2");
                 Challenge3 = data.getStringExtra("challenge3");
                 debitCard = data.getStringExtra("debitCard");
-
                 new MandiriPayment().execute();
-
             } else if (requestCode == 4) {
-
                 Toast.makeText(getApplicationContext(), data.getStringExtra("data"), Toast.LENGTH_SHORT).show();
                 Log.d("Memilih : ", "payment Channel Virtual Account");
                 Log.d("data VA", data.getStringExtra("data"));
@@ -356,7 +284,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
-
 
     private PaymentItems InputCard() {
         PaymentItems paymentItems = new PaymentItems();
@@ -399,33 +326,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return layoutItems;
     }
 
-
-    @TargetApi(Build.VERSION_CODES.M)
-    private void getPermissionFirst() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_PHONE_STATE)) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_PHONE);
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_PHONE);
-        }
-
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_PHONE) {
-
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                deviceID = getDeviceID();
-            } else {
-                Toast.makeText(getApplicationContext(), "Permission Failed", Toast.LENGTH_SHORT);
-            }
-        }
-    }
-
     private class RequestPayment extends AsyncTask<String, String, JSONObject> {
-
         private ProgressDialog pDialog;
 
         @Override
@@ -436,18 +337,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
-
         }
 
         @Override
         protected JSONObject doInBackground(String... args) {
             JSONObject defResp = null;
-
             try {
-                List<NameValuePair> data = new ArrayList<NameValuePair>(3);
-                data.add(new BasicNameValuePair("data", jsonRespon));
+                ContentValues data = new ContentValues();
+                data.put("data", jsonRespon);
 
-                // Getting JSON from URL
                 String conResult = ApiConnection.httpsConnection(MainActivity.this, Constants.URL_CHARGING_DOKU_DAN_CC, data);
 
                 System.out.println("CON RESULT " + conResult);
@@ -461,7 +359,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(JSONObject json) {
-
             pDialog.dismiss();
 
             if (json != null) {
@@ -490,7 +387,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private class MandiriPayment extends AsyncTask<String, String, JSONObject> {
-
         private ProgressDialog pDialog;
 
         @Override
@@ -521,8 +417,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 jGroup.put("req_challenge_code_3", Challenge3);
                 jGroup.put("req_response_token", responseToken);
 
-                List<NameValuePair> data = new ArrayList<NameValuePair>(3);
-                data.add(new BasicNameValuePair("data", jGroup.toString()));
+                ContentValues data = new ContentValues();
+                data.put("data", jGroup.toString());
 
                 // Getting JSON from URL
                 String conResult = ApiConnection.httpsConnection(MainActivity.this, Constants.URL_CHARGING_MANDIRI_CLICKPAY, data);
@@ -538,7 +434,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(JSONObject json) {
-
             pDialog.dismiss();
 
             if (json != null) {
@@ -556,12 +451,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         finish();
                         Toast.makeText(getApplicationContext(), "PAYMENT ERROR", Toast.LENGTH_SHORT).show();
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
 
                 }
-
             }
         }
     }

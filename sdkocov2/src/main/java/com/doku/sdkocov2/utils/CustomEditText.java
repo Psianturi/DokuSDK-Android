@@ -7,14 +7,12 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.EditText;
-
 import com.doku.sdkocov2.interfaces.DrawableClickListener;
 
 /**
  * Created by zaki on 3/15/16.
  */
 public class CustomEditText extends EditText {
-
     int actionX, actionY;
     private Drawable drawableRight;
     private Drawable drawableLeft;
@@ -24,7 +22,6 @@ public class CustomEditText extends EditText {
 
     public CustomEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        // this Contructure required when you are using this view in xml
     }
 
     public CustomEditText(Context context, AttributeSet attrs, int defStyle) {
@@ -33,7 +30,6 @@ public class CustomEditText extends EditText {
 
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
     }
 
     @Override
@@ -42,8 +38,7 @@ public class CustomEditText extends EditText {
     }
 
     @Override
-    public void setCompoundDrawables(Drawable left, Drawable top,
-                                     Drawable right, Drawable bottom) {
+    public void setCompoundDrawables(Drawable left, Drawable top, Drawable right, Drawable bottom) {
         if (left != null) {
             drawableLeft = left;
         }
@@ -156,8 +151,7 @@ public class CustomEditText extends EditText {
 
                 /**If drawble bounds contains the x and y points then move ahead.*/
                 if (bounds.contains(x, y) && clickListener != null) {
-                    clickListener
-                            .onClick(DrawableClickListener.DrawablePosition.RIGHT);
+                    clickListener.onClick(DrawableClickListener.DrawablePosition.RIGHT);
                     event.setAction(MotionEvent.ACTION_CANCEL);
                     return false;
                 }

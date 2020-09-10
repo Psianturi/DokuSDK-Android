@@ -2,15 +2,12 @@ package com.doku.sdkocov2;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
-
 import com.doku.sdkocov2.interfaces.iPaymentCallback;
 import com.doku.sdkocov2.model.LayoutItems;
 import com.doku.sdkocov2.model.PaymentItems;
 import com.doku.sdkocov2.model.UserDetails;
 import com.doku.sdkocov2.model.WalletLoginModel;
 import com.doku.sdkocov2.utils.SDKUtils;
-
 import java.util.ArrayList;
 
 /**
@@ -29,15 +26,10 @@ public class DirectSDK {
     public boolean dataNotValid = false;
     ArrayList<String> errorList = new ArrayList<>();
 
-    public DirectSDK() {
+    public DirectSDK() {}
 
-    }
-
-    //check mandatory data
     private boolean checkDataValidation() {
-
         boolean cancel = false;
-
         try {
             if (paymentItems.getDataMerchantCode() == null) {
                 errorList.add("Merchant Code");
@@ -91,20 +83,16 @@ public class DirectSDK {
             } else {
                 return true;
             }
-
         } catch (Exception e) {
             callbackResponse.onException(e);
         }
         return false;
     }
 
-
     public void getResponse(iPaymentCallback callback, Context context) {
         this.context = context;
         callbackResponse = callback;
-
         if (callback != null && this.getPaymentItems() != null) {
-
             try {
                 if (checkDataValidation()) {
                     Intent intent = new Intent(context, BaseSDKOCO.class);
@@ -118,35 +106,11 @@ public class DirectSDK {
         } else {
             callback.onError(SDKUtils.createErrorResponse(200, "payment item required"));
         }
-
-    }
-
-    public void getResponse(iPaymentCallback callback, LayoutItems layoutItems, Context context) {
-        this.context = context;
-        callbackResponse = callback;
-        this.layoutItems = layoutItems;
-
-        if (callback != null && this.getPaymentItems() != null) {
-
-            try {
-                if (checkDataValidation()) {
-                    Intent intent = new Intent(context, BaseSDKOCO.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
-                }
-            } catch (Exception e) {
-                callback.onException(e);
-            }
-        } else {
-            callback.onError(SDKUtils.createErrorResponse(200, "payment item required"));
-        }
-
     }
 
     public void setCart_details(PaymentItems cardDetails) {
         this.paymentItems = cardDetails;
     }
-
 
     public PaymentItems getPaymentItems() {
         return this.paymentItems;
@@ -156,10 +120,8 @@ public class DirectSDK {
         this.posMenu = posMenu;
     }
 
-
     public void setLayout(LayoutItems itemDetails) {
         this.layoutItems = itemDetails;
     }
-
 
 }

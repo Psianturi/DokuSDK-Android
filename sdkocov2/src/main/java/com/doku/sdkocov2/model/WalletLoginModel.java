@@ -4,7 +4,6 @@ package com.doku.sdkocov2.model;
  * Created by zaki on 2/25/16.
  */
 public class WalletLoginModel {
-
     String tokenID;
     String pairingCode;
     String responseCode;

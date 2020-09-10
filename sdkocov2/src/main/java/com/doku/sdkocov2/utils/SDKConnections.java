@@ -1,45 +1,23 @@
 package com.doku.sdkocov2.utils;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.HttpVersion;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.params.HttpProtocolParams;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
-
-import java.io.IOException;
-import java.net.Socket;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.net.UnknownHostException;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.List;
-
+import java.util.Map;
+import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
@@ -47,9 +25,7 @@ import javax.net.ssl.X509TrustManager;
  * Created by zaki on 12/21/15.
  */
 public class SDKConnections {
-
     private static Integer defTimeout = 65;
-
 
     public static boolean isConnectingToInternet(Context ctx) {
         ConnectivityManager connectivity = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -64,122 +40,107 @@ public class SDKConnections {
         return false;
     }
 
-
-    public static String httpsConnection(Context ctx, String url, List<NameValuePair> data) {
+    public static String httpsConnection(Context ctx, String url, ContentValues data) {
         return httpsConnection(ctx, url, data, defTimeout);
     }
 
-    public static String httpsConnection(Context ctx, String url, List<NameValuePair> data, Integer timeout) {
+    public static String httpsConnection(Context ctx, String url, ContentValues data, Integer timeout) {
         String result = "";
         try {
             if (isConnectingToInternet(ctx)) {
                 try {
-                    HttpClient httpClient = getNewHttpClient(timeout);
-                    HttpPost httpPost = new HttpPost(url);
-                    httpPost.setEntity(new UrlEncodedFormEntity(data));
-                    HttpResponse httpResponse = httpClient.execute(httpPost);
-                    HttpEntity httpEntity = httpResponse.getEntity();
-                    if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                        result = EntityUtils.toString(httpEntity);
-                    } else if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_ACCEPTED) {
+
+                    X509TrustManager trustAllCerts = new X509TrustManager() {
+                        @Override
+                        public void checkClientTrusted(
+                                java.security.cert.X509Certificate[] chain,
+                                String authType) {}
+
+                        @Override
+                        public void checkServerTrusted(
+                                java.security.cert.X509Certificate[] chain,
+                                String authType) {}
+
+                        @Override
+                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                            return new java.security.cert.X509Certificate[0];
+                        }
+                    };
+
+                    URL urlDist = new URL(url);
+                    HttpsURLConnection conn = (HttpsURLConnection) urlDist.openConnection();
+
+                    SSLSocketFactory sslSocketFactory = new TLSSocketFactory();
+                    SSLContext sslContext;
+                    sslContext = SSLContext.getInstance("TLS");
+
+                    sslContext.init(null, new TrustManager[] {
+                            trustAllCerts
+                    }, new java.security.SecureRandom());
+
+                    conn.setSSLSocketFactory(sslSocketFactory);
+
+                    conn.setReadTimeout(timeout*1000);
+                    conn.setConnectTimeout(timeout*1000);
+                    conn.setRequestMethod("POST");
+                    conn.setDoInput(true);
+                    OutputStream os = conn.getOutputStream();
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                    writer.write(getFormData(data));
+                    writer.flush();
+                    writer.close();
+                    os.close();
+
+                    conn.connect();
+
+                    conn.getResponseMessage();
+
+                    BufferedReader br;
+                    if (conn.getResponseCode() == 200) {
+                        br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                        String strCurrentLine;
+                        while ((strCurrentLine = br.readLine()) != null) {
+                            result = strCurrentLine;
+                        }
+                    } else if (conn.getResponseCode() == 202) {
                         result = SDKUtils.createClientResponse(0000, "Request has accepted.");
-                    } else if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_NOT_FOUND) {
+                    } else if (conn.getResponseCode() == 404) {
                         result = SDKUtils.createClientResponse(9998, "Unable connect to server, please try again later.");
-                    } else if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_INTERNAL_SERVER_ERROR) {
+                    } else if (conn.getResponseCode() == 500) {
                         result = SDKUtils.createClientResponse(9997, "Internal server error, We're really sorry about this, and will work hard to get this resolved as soon as possible..");
                     } else {
                         result = SDKUtils.createClientResponse(9996, "Internal server error, We're really sorry about this, and will work hard to get this resolved as soon as possible.");
                     }
+
                 } catch (SocketTimeoutException e) {
                     result = SDKUtils.createClientResponse(3001, "Connection timeout, please check your internet connection");
                 } catch (UnknownHostException e) {
                     result = SDKUtils.createClientResponse(3002, "Connection timeout, please check your internet connection");
                 } catch (Exception ex) {
                     result = SDKUtils.createClientResponse(3003, "Unable connect to server, please try again");
-//                    ex.printStackTrace();
                 }
             } else {
                 result = SDKUtils.createClientResponse(3000, "Internet not available, please check your internet connection");
             }
         } catch (Exception ex) {
-//            ex.printStackTrace();
             result = SDKUtils.createClientResponse(3004, ex.getMessage());
         }
         return result;
     }
 
+    private static String getFormData(ContentValues contentValues) throws UnsupportedEncodingException {
+        StringBuilder sb = new StringBuilder();
+        boolean first = true;
+        for (Map.Entry<String, Object> entry : contentValues.valueSet()) {
+            if (first)
+                first = false;
+            else
+                sb.append("&");
 
-    private static HttpClient getNewHttpClient(Integer timout) {
-        try {
-            KeyStore trustStore = KeyStore.getInstance(KeyStore
-                    .getDefaultType());
-            trustStore.load(null, null);
-
-            SSLSocketFactory sf = new MySSLSocketFactory(trustStore);
-            sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-
-            HttpParams params = new BasicHttpParams();
-            HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
-            HttpProtocolParams.setContentCharset(params, HTTP.UTF_8);
-            HttpConnectionParams.setSoTimeout(params, timout * 1000);
-            SchemeRegistry registry = new SchemeRegistry();
-            registry.register(new Scheme("http", PlainSocketFactory
-                    .getSocketFactory(), 80));
-            registry.register(new Scheme("https", sf, 443));
-
-            ClientConnectionManager ccm = new ThreadSafeClientConnManager(
-                    params, registry);
-
-            return new DefaultHttpClient(ccm, params);
-        } catch (Exception e) {
-            return new DefaultHttpClient();
+            sb.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+            sb.append("=");
+            sb.append(URLEncoder.encode(entry.getValue().toString(), "UTF-8"));
         }
+        return sb.toString();
     }
-
-
-    private static class MySSLSocketFactory extends SSLSocketFactory {
-        SSLContext sslContext = SSLContext.getInstance("TLS");
-
-        public MySSLSocketFactory(KeyStore truststore)
-                throws NoSuchAlgorithmException, KeyManagementException,
-                KeyStoreException, UnrecoverableKeyException {
-            super(truststore);
-
-            TrustManager tm = new X509TrustManager() {
-                public void checkClientTrusted(X509Certificate[] chain,
-                                               String authType) throws CertificateException {
-
-                }
-
-                public void checkServerTrusted(X509Certificate[] chain,
-                                               String authType) throws CertificateException {
-                    try {
-                        chain[0].checkValidity();
-                    } catch (Exception e) {
-                        throw new CertificateException("Certificate not valid or trusted.");
-                    }
-                }
-
-                public X509Certificate[] getAcceptedIssuers() {
-                    return null;
-                }
-            };
-
-            sslContext.init(null, new TrustManager[]{tm}, null);
-        }
-
-        @Override
-        public Socket createSocket(Socket socket, String host, int port,
-                                   boolean autoClose) throws IOException, UnknownHostException {
-            return sslContext.getSocketFactory().createSocket(socket, host,
-                    port, autoClose);
-        }
-
-        @Override
-        public Socket createSocket() throws IOException {
-            return sslContext.getSocketFactory().createSocket();
-        }
-    }
-
-
 }

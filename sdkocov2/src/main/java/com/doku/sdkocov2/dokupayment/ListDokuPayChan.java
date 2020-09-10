@@ -11,36 +11,29 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.doku.sdkocov2.BaseDokuWalletActivity;
 import com.doku.sdkocov2.DirectSDK;
 import com.doku.sdkocov2.R;
 import com.doku.sdkocov2.adapter.MainPaychanAdapter;
 import com.doku.sdkocov2.utils.SDKUtils;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 /**
  * Created by zaki on 2/17/16.
  */
 public class ListDokuPayChan extends Fragment {
-
-    //declare variable
     View view;
     ListView list;
-    ArrayList<String> textPay = new ArrayList<String>();
-    ArrayList<Integer> imagePay = new ArrayList<Integer>();
+    ArrayList<String> textPay = new ArrayList<>();
+    ArrayList<Integer> imagePay = new ArrayList<>();
     Bundle bundleState;
     String channelCode = "00";
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.main_paychan, container, false);
         return view;
     }
@@ -49,32 +42,25 @@ public class ListDokuPayChan extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        //setting layout
         setupLayout();
         textPay.clear();
         imagePay.clear();
         setupArraylistPaychan();
-        //initiate adapter
         MainPaychanAdapter adapter = new MainPaychanAdapter(getActivity(), textPay, imagePay);
 
-        list = (ListView) view.findViewById(R.id.list);
+        list = view.findViewById(R.id.list);
         list.setAdapter(adapter);
 
-        TextView title = (TextView) view.findViewById(R.id.title);
+        TextView title = view.findViewById(R.id.title);
         title.setText("Select DOKU Channel");
         BaseDokuWalletActivity.backButton.setVisibility(View.GONE);
 
-        //on fragment list click action
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 setMenu(position, "haveCC");
             }
         });
-
     }
 
     private void setMenu(int position, String noCC) {
@@ -104,7 +90,6 @@ public class ListDokuPayChan extends Fragment {
     }
 
     private void setupArraylistPaychan() {
-
         textPay.add("Cash Balance");
         imagePay.add(R.drawable.ico_pc_wallet);
 
@@ -128,18 +113,15 @@ public class ListDokuPayChan extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     private void setupLayout() {
 
-        //declare variable
         TextView title;
         RelativeLayout masterLayout;
 
-        //initiate view
-        masterLayout = (RelativeLayout) view.findViewById(R.id.masterLayout);
-        title = (TextView) view.findViewById(R.id.title);
+        masterLayout = view.findViewById(R.id.masterLayout);
+        title = view.findViewById(R.id.title);
 
         if (DirectSDK.layoutItems.getFontPath() != null) {
             SDKUtils.applyFont(DirectSDK.context, title, DirectSDK.layoutItems.getFontPath());
@@ -147,7 +129,6 @@ public class ListDokuPayChan extends Fragment {
             SDKUtils.applyFont(getActivity(), title, "fonts/dokuregular.ttf");
         }
 
-        //font color
         if (DirectSDK.layoutItems.getFontColor() != null) {
             title.setTextColor(Color.parseColor(DirectSDK.layoutItems.getFontColor()));
         }
@@ -155,9 +136,5 @@ public class ListDokuPayChan extends Fragment {
         if (DirectSDK.layoutItems.getBackgroundColor() != null) {
             masterLayout.setBackgroundColor(Color.parseColor(DirectSDK.layoutItems.getBackgroundColor()));
         }
-
-
     }
-
-
 }

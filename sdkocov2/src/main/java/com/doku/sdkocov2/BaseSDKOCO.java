@@ -5,11 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.doku.sdkocov2.fragment.CCPayment;
 import com.doku.sdkocov2.fragment.DokuWalletLogin;
 import com.doku.sdkocov2.fragment.ListPayChan;
@@ -21,26 +19,20 @@ import com.doku.sdkocov2.utils.SDKUtils;
  * Created by zaki on 2/17/16.
  */
 public class BaseSDKOCO extends FragmentActivity {
-
     public static ImageView backButton;
     Bundle bundle;
     Bundle bundleState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.main);
         setupLayout();
-        //check layout status
         bundle = getIntent().getExtras();
         if (bundle != null) {
+            backButton = findViewById(R.id.backButton);
 
-            //define layout
-            backButton = (ImageView) findViewById(R.id.backButton);
-
-            //select payment method
             if (DirectSDK.posMenu > 2 || DirectSDK.posMenu < 0) {
                 selectItem(0);
             } else {
@@ -55,8 +47,7 @@ public class BaseSDKOCO extends FragmentActivity {
 
     private void selectItem(int position) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        // Locate Position
-        Fragment fragment = null;
+        Fragment fragment;
         bundleState = new Bundle();
         switch (position) {
             case 0:
@@ -88,7 +79,6 @@ public class BaseSDKOCO extends FragmentActivity {
         ft.commit();
     }
 
-    //when activity destroyed
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -97,10 +87,8 @@ public class BaseSDKOCO extends FragmentActivity {
     @Override
     public void onBackPressed() {
         Fragment frag = getSupportFragmentManager().findFragmentById(R.id.main_frame);
-
         try {
             if (frag instanceof ListPayChan) {
-
                 finish();
             } else {
                 final iSDKback fragment = (iSDKback) getSupportFragmentManager().findFragmentById(R.id.main_frame);
@@ -115,20 +103,18 @@ public class BaseSDKOCO extends FragmentActivity {
         }
     }
 
-    //setting layout
     private void setupLayout() {
-        //define layout
         RelativeLayout toolbarTop;
         TextView textPayment;
-        toolbarTop = (RelativeLayout) findViewById(R.id.toolbarTop);
-        textPayment = (TextView) findViewById(R.id.textPayment);
+        toolbarTop = findViewById(R.id.toolbarTop);
+        textPayment = findViewById(R.id.textPayment);
 
         if (DirectSDK.layoutItems.getFontPath() != null) {
             SDKUtils.applyFont(DirectSDK.context, textPayment, DirectSDK.layoutItems.getFontPath());
         } else {
             SDKUtils.applyFont(getApplicationContext(), textPayment, "fonts/dokuregular.ttf");
         }
-        //set layout
+
         if (DirectSDK.layoutItems.getToolbarColor() != null) {
             toolbarTop.setBackgroundColor(Color.parseColor(DirectSDK.layoutItems.getToolbarColor()));
         }
@@ -140,7 +126,5 @@ public class BaseSDKOCO extends FragmentActivity {
                 DirectSDK.callbackResponse.onException(e);
             }
         }
-
-
     }
 }

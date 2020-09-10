@@ -1,23 +1,17 @@
 package com.doku.sdkocov2.fragment;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
-
 import com.doku.sdkocov2.R;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Locale;
@@ -32,11 +26,10 @@ public class SecurePayment extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.secure_layout);
 
-        webView = (WebView) findViewById(R.id.webView1);
+        webView = findViewById(R.id.webView1);
 
         bundle = getIntent().getExtras();
 
@@ -45,7 +38,7 @@ public class SecurePayment extends FragmentActivity {
             TERMURL = bundle.getString("TERMURL");
             PAREQ = bundle.getString("PAREQ");
             MD = bundle.getString("MD");
-            final RelativeLayout loadpage = (RelativeLayout) findViewById(R.id.loadpage);
+            final RelativeLayout loadpage = findViewById(R.id.loadpage);
 
             webView.getSettings().setJavaScriptEnabled(true);
             if (Build.VERSION.SDK_INT >= 21) {
@@ -62,28 +55,23 @@ public class SecurePayment extends FragmentActivity {
                     return true;
                 }
 
-                public void onPageStarted(WebView view, String url, Bitmap favicon) {
-
-                }
+                public void onPageStarted(WebView view, String url, Bitmap favicon) {}
 
                 @Override
                 public void onPageFinished(WebView view, final String url) {
                     try {
                         loadpage.setVisibility(View.GONE);
-                        if (url.toString().trim().equalsIgnoreCase(TERMURL)) {
-
+                        if (url.trim().equalsIgnoreCase(TERMURL)) {
                             Intent returnIntent = new Intent();
                             returnIntent.putExtra("result", "doRequestResponse");
                             setResult(RESULT_OK, returnIntent);
                             finish();
                         }
-
                         view.clearCache(true);
                     } catch (Throwable th) {
                         th.printStackTrace();
                     }
                 }
-
             });
 
             String postData;
@@ -93,7 +81,6 @@ public class SecurePayment extends FragmentActivity {
                         URLEncoder.encode(TERMURL, "UTF-8"),
                         URLEncoder.encode(PAREQ, "UTF-8")
                 );
-
                 webView.postUrl(ACSURL, postData.getBytes());
             } catch (UnsupportedEncodingException e) {
                 throw new RuntimeException(e);
@@ -104,7 +91,6 @@ public class SecurePayment extends FragmentActivity {
             setResult(RESULT_OK, returnIntent);
             finish();
         }
-
     }
 
     @Override
