@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import com.doku.sdkocov2.utils.SDKConnections;
 import com.doku.sdkocov2.utils.SDKUtils;
 import com.doku.sdkocov2.utils.TLSSocketFactory;
 import java.io.BufferedReader;
@@ -16,6 +17,7 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
+import java.security.cert.X509Certificate;
 import java.util.Map;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -48,19 +50,29 @@ public class ApiConnection {
 
     public static String httpsConnection(Context ctx, String url, ContentValues data, Integer timeout) {
         String result = "";
+        final String _PREFIX = "[" + ApiConnection.class.getSimpleName() + "]";
         try {
             if (isConnectingToInternet(ctx)) {
                 try {
                     X509TrustManager trustAllCerts = new X509TrustManager() {
                         @Override
-                        public void checkClientTrusted(
-                                java.security.cert.X509Certificate[] chain,
-                                String authType) {}
+                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) {}
 
                         @Override
-                        public void checkServerTrusted(
-                                java.security.cert.X509Certificate[] chain,
-                                String authType) {}
+                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) {
+                            for (X509Certificate cert : chain) {
+                                System.out.println(_PREFIX + " " + cert.getIssuerDN().getName() + " " + cert.getSubjectDN().getName());
+                            }
+                            System.out.println(_PREFIX + " Client Trusted Issuers");
+
+                            X509Certificate trusts[] = this.getAcceptedIssuers();
+                            for (X509Certificate cert : trusts) {
+                                System.out.println(_PREFIX + " " + cert.getIssuerDN().getName());
+                            }
+
+                            this.checkServerTrusted(chain, authType);
+                            System.out.println(_PREFIX + " Certificate Validated");
+                        }
 
                         @Override
                         public java.security.cert.X509Certificate[] getAcceptedIssuers() {
