@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: D">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/sdkocov2/libs/bcprov-jdk15-146.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

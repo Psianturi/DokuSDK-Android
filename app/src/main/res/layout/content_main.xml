@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -24,7 +24,7 @@
                 android:id="@+id/imageProduct"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:background="@drawable/img_shoes" />
 
             <TextView
@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:layout_toRightOf="@id/imageProduct"
+                android:layout_toEndOf="@id/imageProduct"
                 android:text="Van Classic Authentic Leather Mono Black"
                 android:textColor="#3a3a3a"
                 android:textSize="16sp" />
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textProduct"
                 android:layout_marginTop="10dp"
-                android:layout_toRightOf="@+id/imageProduct"
+                android:layout_toEndOf="@+id/imageProduct"
                 android:text="QTY"
                 android:textSize="16sp" />
 
@@ -52,9 +52,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textProduct"
-                android:layout_marginLeft="25dp"
+                android:layout_marginStart="25dp"
                 android:layout_marginTop="10dp"
-                android:layout_toRightOf="@+id/qty"
+                android:layout_toEndOf="@+id/qty"
                 android:text="1"
                 android:textSize="16sp" />
 
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/qty"
                 android:layout_marginTop="10dp"
-                android:layout_toRightOf="@+id/imageProduct"
+                android:layout_toEndOf="@+id/imageProduct"
                 android:text="PRICE"
                 android:textSize="16sp" />
 
@@ -74,9 +74,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/qtyValue"
-                android:layout_marginLeft="25dp"
+                android:layout_marginStart="25dp"
                 android:layout_marginTop="10dp"
-                android:layout_toRightOf="@+id/price"
+                android:layout_toEndOf="@+id/price"
                 android:text="15.000 IDR"
                 android:textColor="#D32F2F"
                 android:textSize="20sp" />
@@ -86,7 +86,7 @@
                 android:id="@+id/emailTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
+                android:layout_marginStart="25dp"
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/imageProduct"
                 android:text="Email"
@@ -99,9 +99,9 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/emailInput"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="25dp"
+                android:layout_marginStart="25dp"
                 android:layout_below="@+id/imageProduct"
-                android:layout_toRightOf="@id/emailTextView"
+                android:layout_toEndOf="@id/emailTextView"
 
                 />
 
@@ -112,8 +112,8 @@
                 android:layout_below="@+id/emailInput"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/button_orange"
-                android:drawableLeft="@drawable/ico_pc_cc_2"
-                android:drawableRight="@drawable/ico_arrow_left"
+                android:drawableStart="@drawable/ico_pc_cc_2"
+                android:drawableEnd="@drawable/ico_arrow_left"
                 android:gravity="left|center_vertical"
                 android:padding="10dp"
                 android:text="Credit Card"
@@ -126,8 +126,8 @@
                 android:layout_below="@+id/buttonCCRegular"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button_orange"
-                android:drawableLeft="@drawable/ico_pc_cc_2"
-                android:drawableRight="@drawable/ico_arrow_left"
+                android:drawableStart="@drawable/ico_pc_cc_2"
+                android:drawableEnd="@drawable/ico_arrow_left"
                 android:gravity="left|center_vertical"
                 android:padding="10dp"
                 android:text="First Payment Tokenization"
@@ -140,8 +140,8 @@
                 android:layout_below="@+id/buttonCCFirstPay"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button_orange"
-                android:drawableLeft="@drawable/ico_pc_cc_2"
-                android:drawableRight="@drawable/ico_arrow_left"
+                android:drawableStart="@drawable/ico_pc_cc_2"
+                android:drawableEnd="@drawable/ico_arrow_left"
                 android:gravity="left|center_vertical"
                 android:padding="10dp"
                 android:text="Second Payment Tokenization"
@@ -154,8 +154,8 @@
                 android:layout_below="@+id/buttonCCSecondPay"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button_orange"
-                android:drawableLeft="@drawable/ico_pc_doku_2"
-                android:drawableRight="@drawable/ico_arrow_left"
+                android:drawableStart="@drawable/ico_pc_doku_2"
+                android:drawableEnd="@drawable/ico_arrow_left"
                 android:gravity="left|center_vertical"
                 android:padding="10dp"
                 android:text="DOKU"
@@ -168,8 +168,8 @@
                 android:layout_below="@+id/buttonDOKU"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button_orange"
-                android:drawableLeft="@drawable/ico_pc_mandiriclickpay_2"
-                android:drawableRight="@drawable/ico_arrow_left"
+                android:drawableStart="@drawable/ico_pc_mandiriclickpay_2"
+                android:drawableEnd="@drawable/ico_arrow_left"
                 android:gravity="left|center_vertical"
                 android:padding="10dp"
                 android:text="Mandiri ClickPay"
@@ -182,8 +182,8 @@
                 android:layout_below="@+id/buttonMandiriClick"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button_orange"
-                android:drawableLeft="@drawable/ico_pc_va_2"
-                android:drawableRight="@drawable/ico_arrow_left"
+                android:drawableStart="@drawable/ico_pc_va_2"
+                android:drawableEnd="@drawable/ico_arrow_left"
                 android:gravity="left|center_vertical"
                 android:padding="10dp"
                 android:text="Virtual Account"
@@ -197,8 +197,8 @@
                 android:layout_below="@+id/buttonVA"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button_orange"
-                android:drawableLeft="@drawable/ico_pc_va_marchant"
-                android:drawableRight="@drawable/ico_arrow_left"
+                android:drawableStart="@drawable/ico_pc_va_marchant"
+                android:drawableEnd="@drawable/ico_arrow_left"
                 android:gravity="left|center_vertical"
                 android:padding="10dp"
                 android:text="Virtual Account Minimarket"
