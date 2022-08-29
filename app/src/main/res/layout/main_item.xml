@@ -8,7 +8,7 @@
         android:id="@+id/imagePay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:padding="10dp" />
 
     <TextView
@@ -16,14 +16,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@+id/imagePay"
-        android:text="Doku Wallet" />
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@+id/imagePay"
+        android:text="@string/doku_wallet" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:src="@drawable/ico_arrow_left" />
 

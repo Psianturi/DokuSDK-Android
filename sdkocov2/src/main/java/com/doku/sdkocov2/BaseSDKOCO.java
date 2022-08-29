@@ -2,12 +2,14 @@ package com.doku.sdkocov2;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.doku.sdkocov2.fragment.CCPayment;
 import com.doku.sdkocov2.fragment.DokuWalletLogin;
 import com.doku.sdkocov2.fragment.ListPayChan;

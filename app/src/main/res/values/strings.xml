@@ -13,5 +13,7 @@
     <string name="vaText1">Paycode digunakan untuk membayar melalui channel ATM dan minimarket. Sertakan kode ini saat membayar di ATM atau minimarket. </string>
 
     <string name="vaResult">Kami menyarankan agar pembayaran dilakukan secepatnya setelah pembeluan online. Pembayaran akan berakhir sesuai dengan ketentuan merchant, dimana pembelian akan batal apabila melewati jangka waktu tersebut</string>
+    <string name="total_pembayaran">Total Pembayaran</string>
+    <string name="doku_wallet">Doku Wallet</string>
 
 </resources>

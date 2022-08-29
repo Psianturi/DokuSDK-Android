@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DokuSDK-Android.iml" filepath="$PROJECT_DIR$/.idea/modules/DokuSDK-Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DokuSDK-Android.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DokuSDK-Android.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DokuSDK-Android.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DokuSDK-Android.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DokuSDK-Android.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DokuSDK-Android.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DokuSDK-Android.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DokuSDK-Android.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sdkocov2/DokuSDK-Android.sdkocov2.iml" filepath="$PROJECT_DIR$/.idea/modules/sdkocov2/DokuSDK-Android.sdkocov2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sdkocov2/DokuSDK-Android.sdkocov2.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/sdkocov2/DokuSDK-Android.sdkocov2.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sdkocov2/DokuSDK-Android.sdkocov2.main.iml" filepath="$PROJECT_DIR$/.idea/modules/sdkocov2/DokuSDK-Android.sdkocov2.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sdkocov2/DokuSDK-Android.sdkocov2.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/sdkocov2/DokuSDK-Android.sdkocov2.unitTest.iml" />
+    </modules>
+  </component>
+</project>

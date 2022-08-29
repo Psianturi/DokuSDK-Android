@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/masterLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#FFF">
 
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/toolbarTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <RelativeLayout
         android:id="@+id/payCode"
@@ -98,9 +99,9 @@
             android:id="@+id/invoiceValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/invoiceTxt"
+            android:layout_toEndOf="@+id/invoiceTxt"
             android:gravity="right"
             android:text="12312"
             android:textColor="#000"
@@ -122,7 +123,7 @@
             android:layout_below="@+id/line1"
             android:layout_marginTop="10dp"
             android:gravity="left"
-            android:text="Total Pembayaran"
+            android:text="@string/total_pembayaran"
             android:textColor="#000"
             android:textSize="16sp" />
 
@@ -131,10 +132,10 @@
             android:id="@+id/totalValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_below="@+id/line1"
             android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/totalTxt"
+            android:layout_toEndOf="@+id/totalTxt"
             android:gravity="right"
             android:textColor="#000"
             android:textSize="16sp" />
@@ -168,11 +169,12 @@
             android:layout_below="@+id/ketTxt"
             android:layout_marginTop="30dp"
             android:background="@drawable/button_orange"
-            android:drawableLeft="@drawable/ico_pc_va_2"
-            android:drawableRight="@drawable/ico_arrow_left"
+            android:drawableStart="@drawable/ico_pc_va_2"
+            android:drawableEnd="@drawable/ico_arrow_left"
             android:gravity="left|center_vertical"
             android:padding="10dp"
             android:text="How To Pay via ATM"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            tools:ignore="RtlHardcoded" />
     </RelativeLayout>
 </RelativeLayout>

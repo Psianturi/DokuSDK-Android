@@ -1,5 +1,6 @@
 package com.doku.sdkocov2.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
@@ -8,8 +9,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +17,10 @@ import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.doku.sdkocov2.BaseSDKOCO;
 import com.doku.sdkocov2.DirectSDK;
 import com.doku.sdkocov2.R;
@@ -344,6 +348,7 @@ public class SecondPaymentCC extends Fragment implements iSDKback {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void inquiryCard() {
         new AsyncTask<String, String, JSONObject>() {
             private ProgressDialog pDialog;

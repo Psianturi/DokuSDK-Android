@@ -8,14 +8,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.doku.sdkocov2.dokupayment.ListDokuPayChan;
 import com.doku.sdkocov2.dokupayment.SessionTimeOutFragment;
 import com.doku.sdkocov2.dokupayment.WalletCCPayment;
@@ -23,6 +25,7 @@ import com.doku.sdkocov2.dokupayment.WalletPaymentFragment;
 import com.doku.sdkocov2.interfaces.iSDKback;
 import com.doku.sdkocov2.utils.ImageUtil;
 import com.doku.sdkocov2.utils.SDKUtils;
+
 import java.io.InputStream;
 
 /**
